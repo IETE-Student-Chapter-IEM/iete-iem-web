@@ -1,0 +1,203 @@
+import { useEffect, useState } from "react";
+import { ArrowRight, Users, CalendarDays, Wrench } from "lucide-react";
+
+const HERO_IMAGES = [
+  "/hero/hero-1.jpeg",
+  "/hero/hero-2.jpeg",
+  "/hero/hero-3.jpeg",
+  "/hero/hero-4.jpeg",
+];
+
+const SLIDE_INTERVAL_MS = 3500;
+
+export default function Hero() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % HERO_IMAGES.length);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section className="relative w-full overflow-hidden bg-white pt-16">
+      {/* Centered triangle mark — sized to the viewport, not bleeding off-canvas, opacity raised so it actually reads */}
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full translate-y-10 opacity-[0.39]"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="none"
+        fill="none"
+      >
+        {/* top-left trace, stays within the header margin */}
+        <path
+          d="M -20 70 H 300 L 340 110 H 620"
+          stroke="#2563EB"
+          strokeWidth="2"
+        />
+        <circle cx="340" cy="110" r="4" fill="#2563EB" />
+
+        {/* bottom-left trace, stays below the stats row */}
+        <path
+          d="M -20 840 H 260 L 300 800 H 560"
+          stroke="#2563EB"
+          strokeWidth="2"
+        />
+        <circle cx="300" cy="800" r="4" fill="#2563EB" />
+
+        {/* top-right trace, runs behind the image card only */}
+        <path
+          d="M 1620 60 H 1180 L 1140 100 H 980"
+          stroke="#0B1B33"
+          strokeWidth="1.5"
+          strokeOpacity="0.5"
+        />
+        <circle cx="1140" cy="100" r="3.5" fill="#0B1B33" fillOpacity="0.5" />
+      </svg>
+
+      <svg
+        className="pointer-events-none absolute inset-0 mx-auto h-full max-w-7xl"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="xMidYMid meet"
+        fill="none"
+      >
+        {/* outer triangle, centered */}
+        <path
+          d="M 800 130 L 1140 660 L 460 660 Z"
+          stroke="#0B1B33"
+          strokeWidth="2"
+          opacity="0.14"
+        />
+        {/* middle triangle */}
+        <path
+          d="M 800 240 L 1050 620 L 550 620 Z"
+          stroke="#2563EB"
+          strokeWidth="2"
+          opacity="0.18"
+        />
+        {/* inner filled triangle */}
+        <path
+          d="M 800 350 L 955 580 L 645 580 Z"
+          fill="#2563EB"
+          opacity="0.06"
+        />
+
+        {/* corner nodes on the outer triangle */}
+        <circle cx="800" cy="130" r="5" fill="#2563EB" opacity="0.4" />
+        <circle cx="1140" cy="660" r="5" fill="#2563EB" opacity="0.4" />
+        <circle cx="460" cy="660" r="5" fill="#2563EB" opacity="0.4" />
+      </svg>
+
+      <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-12 md:pb-24 md:pt-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* LEFT — dialog & action */}
+          <div className="flex flex-col lg:col-span-7">
+            <h1 className="font-extrabold leading-[1.02] tracking-[-0.04em] text-[#0B1B33]">
+              <span className="block text-4xl sm:text-5xl md:text-6xl">
+                Engineering ideas.
+              </span>
+
+              <span className="mt-1 block text-5xl sm:text-6xl md:text-7xl text-[#2563EB]">
+                Building what's next.
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              A student community exploring electronics, communication and
+              computing through workshops, technical sessions and hands-on
+              activities.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="#events"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8]"
+              >
+                See what's on
+              </a>
+            </div>
+
+            <div className="mt-12 grid max-w-md grid-cols-3 gap-6  pt-8">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <Users className="h-4 w-4 text-blue-600" strokeWidth={2} />
+                  <span className="text-xl font-extrabold text-[#0B1B33] sm:text-2xl">
+                    480+
+                  </span>
+                </div>
+                <div className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  Members
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <CalendarDays
+                    className="h-4 w-4 text-blue-600"
+                    strokeWidth={2}
+                  />
+                  <span className="text-xl font-extrabold text-[#0B1B33] sm:text-2xl">
+                    62+
+                  </span>
+                </div>
+                <div className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  Events
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <Wrench className="h-4 w-4 text-blue-600" strokeWidth={2} />
+                  <span className="text-xl font-extrabold text-[#0B1B33] sm:text-2xl">
+                    30+
+                  </span>
+                </div>
+                <div className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  Workshops
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — auto-scrolling photo strip */}
+          <div className="relative flex items-center justify-center lg:col-span-5">
+            <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm">
+              <div className="absolute inset-3 z-20 rounded-xl border border-dashed border-white/40 pointer-events-none" />
+
+              <div className="absolute top-3 left-3 z-20 h-2.5 w-2.5 border-t-2 border-l-2 border-white" />
+              <div className="absolute top-3 right-3 z-20 h-2.5 w-2.5 border-t-2 border-r-2 border-white" />
+              <div className="absolute bottom-3 left-3 z-20 h-2.5 w-2.5 border-b-2 border-l-2 border-white" />
+              <div className="absolute bottom-3 right-3 z-20 h-2.5 w-2.5 border-b-2 border-r-2 border-white" />
+
+              {HERO_IMAGES.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="IETE Student Chapter, IEM Kolkata — chapter activity"
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
+                    i === active ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ))}
+
+              <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-black/45 to-transparent" />
+
+              <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1.5">
+                {HERO_IMAGES.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === active ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="absolute top-4 right-4 z-20 rounded bg-black/30 px-2 py-1 text-[10px] font-mono text-white/90 backdrop-blur">
+                Chapter in action
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
