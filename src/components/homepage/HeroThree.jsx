@@ -84,20 +84,64 @@ export default function HeroThree() {
         style={{ backgroundColor: PRIMARY, opacity: 0.08 }}
       />
 
-      {/* 2. Geometric Layer: Isometric Cubes, Radar Crosshairs & Telemetry Arcs */}
       <svg
-        className="pointer-events-none absolute inset-0 mx-auto h-full max-w-7xl opacity-40 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_20%,black,transparent)]"
+        className="pointer-events-none absolute inset-0 h-full w-full lg:hidden"
+        viewBox="0 0 400 700"
+        preserveAspectRatio="xMidYMid meet"
+        fill="none"
+      >
+        <g stroke={ACCENT} opacity="0.45">
+          <circle
+            cx="200"
+            cy="530"
+            r="140"
+            strokeWidth="1"
+            strokeDasharray="4 6"
+          />
+          <circle cx="200" cy="530" r="90" strokeWidth="1.5" />
+          <circle
+            cx="200"
+            cy="530"
+            r="45"
+            strokeWidth="1"
+            strokeDasharray="8 4"
+          />
+          <line
+            x1="40"
+            y1="530"
+            x2="360"
+            y2="530"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+          />
+          <line
+            x1="200"
+            y1="370"
+            x2="200"
+            y2="690"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+          />
+        </g>
+      </svg>
+
+      {/* ------------------------------------------------------------- */}
+      {/* DESKTOP BACKGROUND SVG (lg and up)                            */}
+      {/* Tech target & crosshairs centered behind the photo strip       */}
+      {/* ------------------------------------------------------------- */}
+      <svg
+        className="pointer-events-none absolute inset-0 mx-auto hidden h-full max-w-7xl lg:block"
         viewBox="0 0 1600 900"
         preserveAspectRatio="xMidYMid slice"
         fill="none"
       >
         {/* Left Side: Isometric Tech Cubes */}
-        <g stroke={ACCENT} strokeWidth="1.2" opacity="0.4">
+        <g stroke={ACCENT} strokeWidth="1.5" opacity="0.8">
           {/* Cube 1 */}
           <path
             d="M 120 180 L 170 150 L 220 180 L 170 210 Z"
             fill={ACCENT}
-            fillOpacity="0.08"
+            fillOpacity="0.12"
           />
           <path d="M 120 180 V 240 L 170 270 V 210 Z" />
           <path d="M 220 180 V 240 L 170 270 V 210 Z" />
@@ -106,54 +150,54 @@ export default function HeroThree() {
           <path
             d="M 260 260 L 300 235 L 340 260 L 300 285 Z"
             fill={PRIMARY}
-            fillOpacity="0.06"
+            fillOpacity="0.1"
           />
           <path d="M 260 260 V 310 L 300 335 V 285 Z" />
           <path d="M 340 260 V 310 L 300 335 V 285 Z" />
         </g>
 
-        {/* Center-Right Background: Radar Target & Telemetry Arcs */}
-        <g stroke={ACCENT} opacity="0.3">
+        {/* Right Side: Radar Target directly centered at cx=1330 behind image card */}
+        <g stroke={ACCENT} opacity="0.55">
           {/* Concentric Tech Rings */}
           <circle
-            cx="1150"
+            cx="1330"
             cy="450"
-            r="280"
-            strokeWidth="1"
-            strokeDasharray="4 8"
+            r="320"
+            strokeWidth="1.2"
+            strokeDasharray="6 8"
           />
-          <circle cx="1150" cy="450" r="180" strokeWidth="1.5" />
+          <circle cx="1330" cy="450" r="230" strokeWidth="1.8" />
           <circle
-            cx="1150"
+            cx="1330"
             cy="450"
-            r="90"
-            strokeWidth="1"
-            strokeDasharray="12 6"
+            r="120"
+            strokeWidth="1.2"
+            strokeDasharray="10 6"
           />
 
           {/* Precision Crosshairs */}
           <line
-            x1="850"
+            x1="930"
             y1="450"
-            x2="1450"
+            x2="1730"
             y2="450"
-            strokeWidth="1"
+            strokeWidth="1.2"
             strokeDasharray="6 6"
           />
           <line
-            x1="1150"
-            y1="150"
-            x2="1150"
-            y2="750"
-            strokeWidth="1"
+            x1="1330"
+            y1="50"
+            x2="1330"
+            y2="850"
+            strokeWidth="1.2"
             strokeDasharray="6 6"
           />
 
-          {/* Corner Framing Marks */}
-          <path d="M 920 220 H 870 V 270" strokeWidth="2" />
-          <path d="M 1380 220 H 1430 V 270" strokeWidth="2" />
-          <path d="M 920 680 H 870 V 630" strokeWidth="2" />
-          <path d="M 1380 680 H 1430 V 630" strokeWidth="2" />
+          {/* Corner Framing Marks around the image card */}
+          <path d="M 1070 190 H 1020 V 240" strokeWidth="2.5" />
+          <path d="M 1590 190 H 1640 V 240" strokeWidth="2.5" />
+          <path d="M 1070 710 H 1020 V 660" strokeWidth="2.5" />
+          <path d="M 1590 710 H 1640 V 660" strokeWidth="2.5" />
         </g>
 
         {/* Neural Network Node Mesh */}
@@ -166,7 +210,7 @@ export default function HeroThree() {
             y2={NODES[b].y}
             stroke={ACCENT}
             strokeWidth="1.2"
-            opacity="0.2"
+            opacity="0.25"
           />
         ))}
         {NODES.map((n, i) => (
@@ -176,7 +220,7 @@ export default function HeroThree() {
             cy={n.y}
             r={i % 3 === 0 ? 4 : 2.5}
             fill={ACCENT}
-            opacity="0.45"
+            opacity="0.6"
           />
         ))}
       </svg>
@@ -290,10 +334,10 @@ export default function HeroThree() {
               className="relative aspect-square w-full max-w-sm overflow-hidden rounded-2xl border shadow-sm"
               style={{ borderColor: "#C7D2FE", backgroundColor: "#FFFFFF" }}
             >
-              <div className="absolute inset-2.5 z-20 rounded-xl border border-dashed border-white/40 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-2.5 z-20 rounded-xl border border-dashed border-white/40" />
 
-              <div className="absolute top-2.5 left-2.5 z-20 h-2 w-2 border-t-2 border-l-2 border-white" />
-              <div className="absolute top-2.5 right-2.5 z-20 h-2 w-2 border-t-2 border-r-2 border-white" />
+              <div className="absolute left-2.5 top-2.5 z-20 h-2 w-2 border-l-2 border-t-2 border-white" />
+              <div className="absolute right-2.5 top-2.5 z-20 h-2 w-2 border-r-2 border-t-2 border-white" />
               <div className="absolute bottom-2.5 left-2.5 z-20 h-2 w-2 border-b-2 border-l-2 border-white" />
               <div className="absolute bottom-2.5 right-2.5 z-20 h-2 w-2 border-b-2 border-r-2 border-white" />
 
@@ -321,7 +365,7 @@ export default function HeroThree() {
                 ))}
               </div>
 
-              <div className="absolute top-3 right-3 z-20 rounded bg-black/30 px-2 py-0.5 text-[9px] font-mono text-white/90 backdrop-blur">
+              <div className="absolute right-3 top-3 z-20 rounded bg-black/30 px-2 py-0.5 font-mono text-[9px] text-white/90 backdrop-blur">
                 Chapter in action
               </div>
             </div>
