@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Users, CalendarDays, Wrench } from "lucide-react";
+import { Users, CalendarDays, Wrench } from "lucide-react";
 
 const HERO_IMAGES = [
   "/hero/hero-1.jpeg",
@@ -27,7 +27,7 @@ export default function HeroTwo() {
 
   return (
     <section
-      className="relative w-full overflow-hidden pt-24 md:pt-28"
+      className="relative w-full overflow-hidden pt-16"
       style={{ backgroundColor: TINT }}
     >
       {/* Blueprint Grid Background in Emerald Tint */}
@@ -42,9 +42,51 @@ export default function HeroTwo() {
         }}
       />
 
-      {/* Circuit traces */}
+      {/* ------------------------------------------------------------- */}
+      {/* MOBILE BACKGROUND SVG (below lg)                              */}
+      {/* Scaled & padded inward so corner nodes stay safely in-bounds. */}
+      {/* Circuit lines removed to keep mobile copy clean & readable.   */}
+      {/* ------------------------------------------------------------- */}
       <svg
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.2]"
+        className="pointer-events-none absolute inset-0 h-full w-full lg:hidden"
+        viewBox="0 0 400 700"
+        preserveAspectRatio="xMidYMid meet"
+        fill="none"
+      >
+        {/* Outer triangle (padded inward) */}
+        <path
+          d="M 200 90 L 330 310 L 70 310 Z"
+          stroke={PRIMARY}
+          strokeWidth="1.5"
+          opacity="0.10"
+        />
+
+        {/* Middle triangle */}
+        <path
+          d="M 200 135 L 300 295 L 100 295 Z"
+          stroke={ACCENT}
+          strokeWidth="1.5"
+          opacity="0.12"
+        />
+
+        {/* Inner filled triangle */}
+        <path
+          d="M 200 180 L 270 280 L 130 280 Z"
+          fill={ACCENT}
+          opacity="0.05"
+        />
+
+        {/* Corner nodes */}
+        <circle cx="200" cy="90" r="3.5" fill={ACCENT} opacity="0.3" />
+        <circle cx="330" cy="310" r="3.5" fill={ACCENT} opacity="0.3" />
+        <circle cx="70" cy="310" r="3.5" fill={ACCENT} opacity="0.3" />
+      </svg>
+
+      {/* ------------------------------------------------------------- */}
+      {/* DESKTOP BACKGROUND SVGs (lg and up)                           */}
+      {/* ------------------------------------------------------------- */}
+      <svg
+        className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-[0.2] lg:block"
         viewBox="0 0 1600 900"
         preserveAspectRatio="none"
         fill="none"
@@ -72,9 +114,8 @@ export default function HeroTwo() {
         <circle cx="1140" cy="100" r="3.5" fill={PRIMARY} fillOpacity="0.5" />
       </svg>
 
-      {/* Centered triangle mark */}
       <svg
-        className="pointer-events-none absolute inset-0 mx-auto h-full max-w-7xl"
+        className="pointer-events-none absolute inset-0 mx-auto hidden h-full max-w-7xl lg:block"
         viewBox="0 0 1600 900"
         preserveAspectRatio="xMidYMid meet"
         fill="none"
@@ -102,9 +143,12 @@ export default function HeroTwo() {
         <circle cx="460" cy="660" r="5" fill={ACCENT} opacity="0.4" />
       </svg>
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-16 md:pb-24">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* LEFT */}
+      {/* ------------------------------------------------------------- */}
+      {/* MAIN HERO CONTENT                                             */}
+      {/* ------------------------------------------------------------- */}
+      <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-6 md:pb-24 md:pt-16">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* LEFT — dialog & action */}
           <div className="flex flex-col lg:col-span-7">
             <h1
               className="font-extrabold leading-[1.1] tracking-[-0.03em]"
@@ -130,7 +174,7 @@ export default function HeroTwo() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#events"
-                className="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition sm:w-auto"
                 style={{ backgroundColor: ACCENT }}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.backgroundColor = PRIMARY)
@@ -143,7 +187,7 @@ export default function HeroTwo() {
               </a>
             </div>
 
-            <div className="mt-12 grid max-w-md grid-cols-3 gap-6 pt-8">
+            <div className="mt-10 grid max-w-md grid-cols-3 gap-4 pt-8 sm:mt-12 sm:gap-6">
               <div>
                 <div className="flex items-center gap-1.5">
                   <Users
@@ -201,16 +245,16 @@ export default function HeroTwo() {
             </div>
           </div>
 
-          {/* RIGHT — photo strip */}
+          {/* RIGHT — auto-scrolling photo strip */}
           <div className="relative flex items-center justify-center lg:col-span-5">
             <div
               className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border shadow-sm"
               style={{ borderColor: "#A7F3D0", backgroundColor: "#FFFFFF" }}
             >
-              <div className="absolute inset-3 z-20 rounded-xl border border-dashed border-white/40 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-3 z-20 rounded-xl border border-dashed border-white/40" />
 
-              <div className="absolute top-3 left-3 z-20 h-2.5 w-2.5 border-t-2 border-l-2 border-white" />
-              <div className="absolute top-3 right-3 z-20 h-2.5 w-2.5 border-t-2 border-r-2 border-white" />
+              <div className="absolute left-3 top-3 z-20 h-2.5 w-2.5 border-l-2 border-t-2 border-white" />
+              <div className="absolute right-3 top-3 z-20 h-2.5 w-2.5 border-r-2 border-t-2 border-white" />
               <div className="absolute bottom-3 left-3 z-20 h-2.5 w-2.5 border-b-2 border-l-2 border-white" />
               <div className="absolute bottom-3 right-3 z-20 h-2.5 w-2.5 border-b-2 border-r-2 border-white" />
 
@@ -238,7 +282,7 @@ export default function HeroTwo() {
                 ))}
               </div>
 
-              <div className="absolute top-4 right-4 z-20 rounded bg-black/30 px-2 py-1 text-[10px] font-mono text-white/90 backdrop-blur">
+              <div className="absolute right-4 top-4 z-20 rounded bg-black/30 px-2 py-1 font-mono text-[10px] text-white/90 backdrop-blur">
                 Chapter in action
               </div>
             </div>

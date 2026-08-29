@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Users, CalendarDays, Wrench } from "lucide-react";
+import { Users, CalendarDays, Wrench } from "lucide-react";
 
 const HERO_IMAGES = [
   "/hero/hero-1.jpeg",
@@ -22,14 +22,54 @@ export default function Hero() {
 
   return (
     <section className="relative w-full overflow-hidden bg-white pt-16">
-
+      {/* ------------------------------------------------------------- */}
+      {/* MOBILE BACKGROUND SVG (below lg)                              */}
+      {/* Scaled & padded inward so corner nodes stay safely in-bounds   */}
+      {/* ------------------------------------------------------------- */}
       <svg
-        className="pointer-events-none absolute inset-0 h-full w-full translate-y-10 opacity-[0.39]"
+        className="pointer-events-none absolute inset-0 h-full w-full lg:hidden"
+        viewBox="0 0 400 700"
+        preserveAspectRatio="xMidYMid meet"
+        fill="none"
+      >
+        {/* Outer triangle (padded inward) */}
+        <path
+          d="M 200 90 L 330 310 L 70 310 Z"
+          stroke="#0B1B33"
+          strokeWidth="1.5"
+          opacity="0.10"
+        />
+
+        {/* Middle triangle */}
+        <path
+          d="M 200 135 L 300 295 L 100 295 Z"
+          stroke="#2563EB"
+          strokeWidth="1.5"
+          opacity="0.12"
+        />
+
+        {/* Inner filled triangle */}
+        <path
+          d="M 200 180 L 270 280 L 130 280 Z"
+          fill="#2563EB"
+          opacity="0.05"
+        />
+
+        {/* Corner nodes */}
+        <circle cx="200" cy="90" r="3.5" fill="#2563EB" opacity="0.3" />
+        <circle cx="330" cy="310" r="3.5" fill="#2563EB" opacity="0.3" />
+        <circle cx="70" cy="310" r="3.5" fill="#2563EB" opacity="0.3" />
+      </svg>
+
+      {/* ------------------------------------------------------------- */}
+      {/* DESKTOP BACKGROUND SVGs (lg and up)                           */}
+      {/* ------------------------------------------------------------- */}
+      <svg
+        className="pointer-events-none absolute inset-0 hidden h-full w-full translate-y-10 opacity-[0.39] lg:block"
         viewBox="0 0 1600 900"
         preserveAspectRatio="none"
         fill="none"
       >
-        {/* top-left trace, stays within the header margin */}
         <path
           d="M -20 70 H 300 L 340 110 H 620"
           stroke="#2563EB"
@@ -37,7 +77,6 @@ export default function Hero() {
         />
         <circle cx="340" cy="110" r="4" fill="#2563EB" />
 
-        {/* bottom-left trace, stays below the stats row */}
         <path
           d="M -20 840 H 260 L 300 800 H 560"
           stroke="#2563EB"
@@ -45,7 +84,6 @@ export default function Hero() {
         />
         <circle cx="300" cy="800" r="4" fill="#2563EB" />
 
-        {/* top-right trace, runs behind the image card only */}
         <path
           d="M 1620 60 H 1180 L 1140 100 H 980"
           stroke="#0B1B33"
@@ -56,40 +94,39 @@ export default function Hero() {
       </svg>
 
       <svg
-        className="pointer-events-none absolute inset-0 mx-auto h-full max-w-7xl"
+        className="pointer-events-none absolute inset-0 mx-auto hidden h-full max-w-7xl lg:block"
         viewBox="0 0 1600 900"
         preserveAspectRatio="xMidYMid meet"
         fill="none"
       >
-        {/* outer triangle, centered */}
         <path
           d="M 800 130 L 1140 660 L 460 660 Z"
           stroke="#0B1B33"
           strokeWidth="2"
           opacity="0.14"
         />
-        {/* middle triangle */}
         <path
           d="M 800 240 L 1050 620 L 550 620 Z"
           stroke="#2563EB"
           strokeWidth="2"
           opacity="0.18"
         />
-        {/* inner filled triangle */}
         <path
           d="M 800 350 L 955 580 L 645 580 Z"
           fill="#2563EB"
           opacity="0.06"
         />
 
-        {/* corner nodes on the outer triangle */}
         <circle cx="800" cy="130" r="5" fill="#2563EB" opacity="0.4" />
         <circle cx="1140" cy="660" r="5" fill="#2563EB" opacity="0.4" />
         <circle cx="460" cy="660" r="5" fill="#2563EB" opacity="0.4" />
       </svg>
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-12 md:pb-24 md:pt-16">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+      {/* ------------------------------------------------------------- */}
+      {/* MAIN HERO CONTENT                                             */}
+      {/* ------------------------------------------------------------- */}
+      <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-6 md:pb-24 md:pt-16">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
           {/* LEFT — dialog & action */}
           <div className="flex flex-col lg:col-span-7">
             <h1 className="font-extrabold leading-[1.1] tracking-[-0.03em] text-[#0B1B33]">
@@ -97,7 +134,7 @@ export default function Hero() {
                 Engineering ideas.
               </span>
 
-              <span className="mt-1 block text-4xl sm:text-5xl md:text-[3.25rem] text-[#2563EB]">
+              <span className="mt-1 block text-4xl text-[#2563EB] sm:text-5xl md:text-[3.25rem]">
                 Building what's next.
               </span>
             </h1>
@@ -111,13 +148,13 @@ export default function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#events"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8]"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8] sm:w-auto"
               >
                 See what's on
               </a>
             </div>
 
-            <div className="mt-12 grid max-w-md grid-cols-3 gap-6  pt-8">
+            <div className="mt-10 grid max-w-md grid-cols-3 gap-4 pt-8 sm:mt-12 sm:gap-6">
               <div>
                 <div className="flex items-center gap-1.5">
                   <Users className="h-4 w-4 text-blue-600" strokeWidth={2} />
@@ -160,10 +197,10 @@ export default function Hero() {
           {/* RIGHT — auto-scrolling photo strip */}
           <div className="relative flex items-center justify-center lg:col-span-5">
             <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm">
-              <div className="absolute inset-3 z-20 rounded-xl border border-dashed border-white/40 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-3 z-20 rounded-xl border border-dashed border-white/40" />
 
-              <div className="absolute top-3 left-3 z-20 h-2.5 w-2.5 border-t-2 border-l-2 border-white" />
-              <div className="absolute top-3 right-3 z-20 h-2.5 w-2.5 border-t-2 border-r-2 border-white" />
+              <div className="absolute left-3 top-3 z-20 h-2.5 w-2.5 border-l-2 border-t-2 border-white" />
+              <div className="absolute right-3 top-3 z-20 h-2.5 w-2.5 border-r-2 border-t-2 border-white" />
               <div className="absolute bottom-3 left-3 z-20 h-2.5 w-2.5 border-b-2 border-l-2 border-white" />
               <div className="absolute bottom-3 right-3 z-20 h-2.5 w-2.5 border-b-2 border-r-2 border-white" />
 
@@ -191,7 +228,7 @@ export default function Hero() {
                 ))}
               </div>
 
-              <div className="absolute top-4 right-4 z-20 rounded bg-black/30 px-2 py-1 text-[10px] font-mono text-white/90 backdrop-blur">
+              <div className="absolute right-4 top-4 z-20 rounded bg-black/30 px-2 py-1 font-mono text-[10px] text-white/90 backdrop-blur">
                 Chapter in action
               </div>
             </div>
