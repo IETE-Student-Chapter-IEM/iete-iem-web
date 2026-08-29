@@ -31,34 +31,47 @@ export default function Navbar() {
 
   return (
     <header
-      // Always carries a border so the header separates from the page beneath it,
-      // even before any scrolling happens. Scroll only adds blur + shadow on top of that.
       className={`fixed inset-x-0 top-0 z-50 h-[76px] border-b border-slate-200 transition-all duration-300 ${
         scrolled
           ? "bg-white/95 shadow-[0_2px_8px_rgba(15,23,42,0.06)] backdrop-blur-xl"
           : "bg-white"
       }`}
     >
-      <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        {/* BRAND */}
+      <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* BRAND — VISIBLE ON BOTH MOBILE AND DESKTOP */}
         <a
           href="/"
           onClick={closeMenu}
-          className="flex items-center gap-3"
+          className="flex items-center gap-2 sm:gap-3"
           aria-label="IETE Student Chapter IEM Kolkata"
         >
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+          {/* IETE Logo */}
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white sm:h-11 sm:w-11">
             <img
               src="/LogoNav.png"
-              alt="IETE Student Chapter IEM Kolkata"
+              alt="IETE Student Chapter"
               className="h-full w-full object-contain"
             />
           </div>
-          <div className="hidden leading-none sm:block">
-            <div className="text-[15px] font-bold tracking-[-0.02em] text-[#0B1B33]">
+
+          {/* College Logo */}
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white sm:h-11 sm:w-11">
+            <img
+              src="/CLogo.png"
+              alt="IEM Kolkata Logo"
+              className="h-full w-full object-contain"
+            />
+          </div>
+
+          {/* Vertical Divider */}
+          <div className="h-7 w-[1px] bg-slate-200" />
+
+          {/* Brand Text Header */}
+          <div className="block leading-none">
+            <div className="text-xs font-bold tracking-[-0.02em] text-[#0B1B33] sm:text-[15px]">
               IETE Student Chapter
             </div>
-            <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[10px] sm:tracking-[0.18em]">
               IEM Kolkata
             </div>
           </div>
@@ -93,7 +106,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="relative z-[60] flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0B1B33] transition hover:bg-slate-50 md:hidden"
+          className="relative z-[60] flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0B1B33] transition hover:bg-slate-50 md:hidden"
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={open}
         >
@@ -105,7 +118,7 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU DROPDOWN */}
       <div
         className={`absolute inset-x-0 top-[76px] border-t border-slate-200 bg-white shadow-lg transition-all duration-300 md:hidden ${
           open
