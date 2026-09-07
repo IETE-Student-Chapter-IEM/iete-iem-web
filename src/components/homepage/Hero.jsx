@@ -10,11 +10,6 @@ const HERO_IMAGES = [
 
 const SLIDE_INTERVAL_MS = 3500;
 
-// Palette 2 — Deep Emerald & Forest
-const PRIMARY = "#064E3B"; // deep green, headings
-const ACCENT = "#059669"; // emerald, buttons/highlights
-const TINT = "#F0FDF4"; // soft mint background tint
-
 export default function Hero() {
   const [active, setActive] = useState(0);
 
@@ -26,17 +21,14 @@ export default function Hero() {
   }, []);
 
   return (
-    <section
-      className="relative w-full overflow-hidden pt-24 sm:pt-28 md:pt-32"
-      style={{ backgroundColor: TINT }}
-    >
+    <section className="relative w-full overflow-hidden bg-brand-tint pt-24 sm:pt-28 md:pt-32">
       {/* Blueprint Grid Background in Emerald Tint */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage: `
-            linear-gradient(to right, ${PRIMARY} 1.2px, transparent 1.2px),
-            linear-gradient(to bottom, ${PRIMARY} 1.2px, transparent 1.2px)
+            linear-gradient(to right, var(--color-brand-primary) 1.2px, transparent 1.2px),
+            linear-gradient(to bottom, var(--color-brand-primary) 1.2px, transparent 1.2px)
           `,
           backgroundSize: "36px 36px",
         }}
@@ -44,6 +36,7 @@ export default function Hero() {
 
       {/* ------------------------------------------------------------- */}
       {/* MOBILE BACKGROUND SVG (below lg)                              */}
+      {/* Clamped to start below navbar height (top-16)                 */}
       {/* ------------------------------------------------------------- */}
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 top-16 h-[calc(100%-4rem)] w-full lg:hidden"
@@ -54,7 +47,7 @@ export default function Hero() {
         {/* Outer triangle */}
         <path
           d="M 200 90 L 330 310 L 70 310 Z"
-          stroke={PRIMARY}
+          stroke="var(--color-brand-primary)"
           strokeWidth="1.5"
           opacity="0.10"
         />
@@ -62,7 +55,7 @@ export default function Hero() {
         {/* Middle triangle */}
         <path
           d="M 200 135 L 300 295 L 100 295 Z"
-          stroke={ACCENT}
+          stroke="var(--color-brand-accent)"
           strokeWidth="1.5"
           opacity="0.12"
         />
@@ -70,19 +63,37 @@ export default function Hero() {
         {/* Inner filled triangle */}
         <path
           d="M 200 180 L 270 280 L 130 280 Z"
-          fill={ACCENT}
+          fill="var(--color-brand-accent)"
           opacity="0.05"
         />
 
         {/* Corner nodes */}
-        <circle cx="200" cy="90" r="3.5" fill={ACCENT} opacity="0.3" />
-        <circle cx="330" cy="310" r="3.5" fill={ACCENT} opacity="0.3" />
-        <circle cx="70" cy="310" r="3.5" fill={ACCENT} opacity="0.3" />
+        <circle
+          cx="200"
+          cy="90"
+          r="3.5"
+          fill="var(--color-brand-accent)"
+          opacity="0.3"
+        />
+        <circle
+          cx="330"
+          cy="310"
+          r="3.5"
+          fill="var(--color-brand-accent)"
+          opacity="0.3"
+        />
+        <circle
+          cx="70"
+          cy="310"
+          r="3.5"
+          fill="var(--color-brand-accent)"
+          opacity="0.3"
+        />
       </svg>
 
       {/* ------------------------------------------------------------- */}
       {/* DESKTOP BACKGROUND SVGs (lg and up)                            */}
-      {/* Bound to start below navbar height (top-16) to prevent overflow */}
+      {/* Clamped to start below navbar height (top-16)                 */}
       {/* ------------------------------------------------------------- */}
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 top-16 hidden h-[calc(100%-4rem)] w-full opacity-[0.2] lg:block"
@@ -92,25 +103,31 @@ export default function Hero() {
       >
         <path
           d="M -20 70 H 300 L 340 110 H 620"
-          stroke={ACCENT}
+          stroke="var(--color-brand-accent)"
           strokeWidth="2"
         />
-        <circle cx="340" cy="110" r="4" fill={ACCENT} />
+        <circle cx="340" cy="110" r="4" fill="var(--color-brand-accent)" />
 
         <path
           d="M -20 840 H 260 L 300 800 H 560"
-          stroke={ACCENT}
+          stroke="var(--color-brand-accent)"
           strokeWidth="2"
         />
-        <circle cx="300" cy="800" r="4" fill={ACCENT} />
+        <circle cx="300" cy="800" r="4" fill="var(--color-brand-accent)" />
 
         <path
           d="M 1620 60 H 1180 L 1140 100 H 980"
-          stroke={PRIMARY}
+          stroke="var(--color-brand-primary)"
           strokeWidth="1.5"
           strokeOpacity="0.5"
         />
-        <circle cx="1140" cy="100" r="3.5" fill={PRIMARY} fillOpacity="0.5" />
+        <circle
+          cx="1140"
+          cy="100"
+          r="3.5"
+          fill="var(--color-brand-primary)"
+          fillOpacity="0.5"
+        />
       </svg>
 
       <svg
@@ -121,25 +138,43 @@ export default function Hero() {
       >
         <path
           d="M 800 130 L 1140 660 L 460 660 Z"
-          stroke={PRIMARY}
+          stroke="var(--color-brand-primary)"
           strokeWidth="2"
           opacity="0.14"
         />
         <path
           d="M 800 240 L 1050 620 L 550 620 Z"
-          stroke={ACCENT}
+          stroke="var(--color-brand-accent)"
           strokeWidth="2"
           opacity="0.18"
         />
         <path
           d="M 800 350 L 955 580 L 645 580 Z"
-          fill={ACCENT}
+          fill="var(--color-brand-accent)"
           opacity="0.07"
         />
 
-        <circle cx="800" cy="130" r="5" fill={ACCENT} opacity="0.4" />
-        <circle cx="1140" cy="660" r="5" fill={ACCENT} opacity="0.4" />
-        <circle cx="460" cy="660" r="5" fill={ACCENT} opacity="0.4" />
+        <circle
+          cx="800"
+          cy="130"
+          r="5"
+          fill="var(--color-brand-accent)"
+          opacity="0.4"
+        />
+        <circle
+          cx="1140"
+          cy="660"
+          r="5"
+          fill="var(--color-brand-accent)"
+          opacity="0.4"
+        />
+        <circle
+          cx="460"
+          cy="660"
+          r="5"
+          fill="var(--color-brand-accent)"
+          opacity="0.4"
+        />
       </svg>
 
       {/* ------------------------------------------------------------- */}
@@ -149,17 +184,11 @@ export default function Hero() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
           {/* LEFT — dialog & action */}
           <div className="flex flex-col lg:col-span-7">
-            <h1
-              className="font-extrabold leading-[1.1] tracking-[-0.03em]"
-              style={{ color: PRIMARY }}
-            >
+            <h1 className="font-extrabold leading-[1.1] tracking-[-0.03em] text-brand-primary">
               <span className="block text-3xl sm:text-4xl md:text-[2.75rem]">
                 Engineering ideas.
               </span>
-              <span
-                className="mt-1 block text-4xl sm:text-5xl md:text-[3.25rem]"
-                style={{ color: ACCENT }}
-              >
+              <span className="mt-1 block text-4xl text-brand-accent sm:text-5xl md:text-[3.25rem]">
                 Building what's next.
               </span>
             </h1>
@@ -173,14 +202,7 @@ export default function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#events"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition sm:w-auto"
-                style={{ backgroundColor: ACCENT }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = PRIMARY)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = ACCENT)
-                }
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-accent px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-primary sm:w-auto"
               >
                 See what's on
               </a>
@@ -190,14 +212,10 @@ export default function Hero() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <Users
-                    className="h-4 w-4"
-                    style={{ color: ACCENT }}
+                    className="h-4 w-4 text-brand-accent"
                     strokeWidth={2}
                   />
-                  <span
-                    className="text-xl font-extrabold sm:text-2xl"
-                    style={{ color: PRIMARY }}
-                  >
+                  <span className="text-xl font-extrabold text-brand-primary sm:text-2xl">
                     480+
                   </span>
                 </div>
@@ -208,14 +226,10 @@ export default function Hero() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <CalendarDays
-                    className="h-4 w-4"
-                    style={{ color: ACCENT }}
+                    className="h-4 w-4 text-brand-accent"
                     strokeWidth={2}
                   />
-                  <span
-                    className="text-xl font-extrabold sm:text-2xl"
-                    style={{ color: PRIMARY }}
-                  >
+                  <span className="text-xl font-extrabold text-brand-primary sm:text-2xl">
                     62+
                   </span>
                 </div>
@@ -226,14 +240,10 @@ export default function Hero() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <Wrench
-                    className="h-4 w-4"
-                    style={{ color: ACCENT }}
+                    className="h-4 w-4 text-brand-accent"
                     strokeWidth={2}
                   />
-                  <span
-                    className="text-xl font-extrabold sm:text-2xl"
-                    style={{ color: PRIMARY }}
-                  >
+                  <span className="text-xl font-extrabold text-brand-primary sm:text-2xl">
                     30+
                   </span>
                 </div>
@@ -246,10 +256,7 @@ export default function Hero() {
 
           {/* RIGHT — auto-scrolling photo frame */}
           <div className="relative flex items-center justify-center lg:col-span-5">
-            <div
-              className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border shadow-sm"
-              style={{ borderColor: "#A7F3D0", backgroundColor: "#FFFFFF" }}
-            >
+            <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border border-brand-border bg-white shadow-sm">
               {/* Internal framing accents */}
               <div className="pointer-events-none absolute inset-3 z-20 rounded-xl border border-dashed border-white/40" />
               <div className="absolute left-3 top-3 z-20 h-2.5 w-2.5 border-l-2 border-t-2 border-white" />

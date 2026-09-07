@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
-html,
+@theme {
+  /* Brand Theme Colors */
+  --color-brand-primary: #064e3b; /* Deep Green */
+  --color-brand-accent: #059669; /* Emerald Accent */
+  --color-brand-tint: #f0fdf4; /* Soft Mint Background Tint */
+  --color-brand-border: #a7f3d0; /* Light Emerald Border */
+}
+
+/* Apply background color globally to all pages */
 body {
-  font-family: "Manrope", sans-serif;
+  background-color: var(--color-brand-tint);
+  color: #1e293b;
 }
