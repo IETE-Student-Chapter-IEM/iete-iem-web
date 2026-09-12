@@ -1,11 +1,13 @@
-import Hero from "../components/homepage/Hero";
+import Hero from "../components/homepage/Hero"
+import Mission from "../components/sections/Mission";
 import Team from "../components/homepage/Team";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main>
+    <>
       <Hero />
+      <Mission />
       <Team />
-    </main>
+    </>
   );
 }
