@@ -108,7 +108,7 @@ export const STUDENT_MEMBERS = [
     department: "CSE (IoTCSBT)",
     image: "/coreTeam/priyanshuhazra.jpg",
     instagram:
-      "https://www.instagram.com/priyanshu_cineadda?igsh=OHZpa3dmZ3Exand0",
+      "https://www.instagram.com/mon_ochrome1201?stkn=MWswcGFod2YzeGJhOQ%3D%3D",
     linkedin:
       "https://www.linkedin.com/in/priyanshu-hazra-4a007b423?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     tier: "coordinator",
@@ -137,16 +137,16 @@ export const STUDENT_MEMBERS = [
     tier: "coordinator",
   },
 
-  // {
-  //   id: "s9",
-  //   name: "Pranjal Pankaj Gupta",
-  //   role: "Technical Head",
-  //   department: "IT",
-  //   image: "/coreTeam/pranjalgupta.jpg",
-  //   instagram: "",
-  //   linkedin: "",
-  //   tier: "head",
-  // },
+  {
+    id: "s9",
+    name: "Pranjal Pankaj Gupta",
+    role: "Technical Head",
+    department: "IT",
+    image: "/coreTeam/pranjalgupta.jpeg",
+    instagram: "",
+    linkedin: "",
+    tier: "head",
+  },
 
   {
     id: "s10",
