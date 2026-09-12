@@ -173,12 +173,12 @@ export const STUDENT_MEMBERS = [
     role: "Technical Head",
     department: "IT",
     image: "/coreTeam/pranjalgupta.jpeg",
-    instagram: "",
-    linkedin: "",
+    instagram:
+      "https://www.instagram.com/pranjal3280?stkn=MWVzOTA4ajRqc2R2NQ%3D%3D&utm_source=qr",
+    linkedin: "https://www.linkedin.com/in/n-9-pranjal-pankaj-gupta-b885b0319/",
     tier: "head",
     section: "technology-creative",
   },
-
   {
     id: "s10",
     name: "Deblina Mondal",
