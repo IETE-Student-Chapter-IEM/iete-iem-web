@@ -69,7 +69,7 @@ export default function Navbar() {
           {/* Brand Text Header */}
           <div className="block leading-none">
             <div className="text-xs font-bold tracking-[-0.02em] text-[#0B1B33] sm:text-[15px]">
-              IETE Student Chapter
+              IETE Students' Forum
             </div>
             <div className="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[10px] sm:tracking-[0.18em]">
               IEM Kolkata

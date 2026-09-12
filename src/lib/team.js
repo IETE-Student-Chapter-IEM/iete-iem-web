@@ -1,0 +1,213 @@
+export const FACULTY_MEMBERS = [
+  {
+    id: "f1",
+    name: "Prof. Dr. Moutushi Singh",
+    role: "Faculty Chairman",
+    department: "HoD, IT / CSE / CSE (IoT) / CSE (IoTCSBT) / CSE (AI)",
+    image: "/coreTeam/moutushisingh.jpg",
+    bio: "Chairs the Management Committee and heads the department, setting the chapter's strategic direction.",
+    instagram: "",
+    linkedin: "",
+    tier: "chairman",
+  },
+  {
+    id: "f2",
+    name: "Prof. Dr. Susovan Jana",
+    role: "Faculty Coordinator",
+    department: "Associate Professor & Programme In-Charge, CSE (IoT)",
+    image: "/coreTeam/susovanjana.jpg",
+    bio: "Coordinates day-to-day chapter operations and mentors the student committee.",
+    instagram: "",
+    linkedin: "",
+    tier: "coordinator",
+  },
+  {
+    id: "f3",
+    name: "Prof. Dr. Avipsita Chatterjee",
+    role: "Faculty Advisor",
+    department: "Department of CSE",
+    image: "/coreTeam/avipsitachatterjee1.jpeg",
+    bio: "Advises on technical programming and academic alignment of chapter initiatives.",
+    instagram: "",
+    linkedin: "",
+    tier: "advisor",
+  },
+  {
+    id: "f4",
+    name: "Prof. Dr. Koushik Dutta",
+    role: "Faculty Advisor",
+    department: "Department of CSE",
+    image: "/coreTeam/koushikdutta.jpeg",
+    bio: "Advises on technical programming and academic alignment of chapter initiatives.",
+    instagram: "",
+    linkedin: "",
+    tier: "advisor",
+  },
+];
+
+export const STUDENT_MEMBERS = [
+  {
+    id: "s1",
+    name: "Alokparna Mitra",
+    role: "Chairman",
+    department: "CSE",
+    image: "/coreTeam/alokparnamitra1.jpeg",
+    instagram:
+      "https://www.instagram.com/_.azurely._?igsh=MXMwcm41b2k4eXNndg==&igsi=MXMwcm41b2k4eXNndg==",
+    linkedin: "https://www.linkedin.com/in/alokparna-mitra",
+    tier: "leadership",
+  },
+  {
+    id: "s2",
+    name: "Sreetama Santra",
+    role: "Vice-Chairman",
+    department: "CSE (IoT)",
+    image: "/coreTeam/sreetamasantra1.png",
+    instagram: "https://www.instagram.com/sreetama__s?igsh=bmwzMDA4MWVlZHdj",
+    linkedin:
+      "https://www.linkedin.com/in/sreetama-santra-427360322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    tier: "leadership",
+  },
+  {
+    id: "s3",
+    name: "Tejwinder Singh",
+    role: "Hony. Secretary",
+    department: "CSE (IoT)",
+    image: "/coreTeam/tejwindersingh.jpg",
+    instagram: "https://www.instagram.com/tej03x?igsh=MWtvYWFmMHQ5eXpreg==",
+    linkedin:
+      "https://www.linkedin.com/in/tejwinder-singh-740038392?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+
+    tier: "core",
+  },
+  {
+    id: "s4",
+    name: "Debarghya Kundu",
+    role: "General Secretary",
+    department: "CSE (IoT)",
+    image: "/coreTeam/debarghyakundu.jpg",
+    instagram:
+      "https://www.instagram.com/debarghyakundu_06?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
+    linkedin: "",
+    tier: "core",
+  },
+  {
+    id: "s5",
+    name: "Ankita Sarkar",
+    role: "Treasurer",
+    department: "CSE (IoT)",
+    image: "/coreTeam/ankitasarkar.jpg",
+    instagram: "https://www.instagram.com/awnkitasarkar?igsh=enJ3OG0yYnp1Mmpj",
+    linkedin: "https://www.linkedin.com/in/ankita-sarkar-5a776831a",
+    tier: "core",
+  },
+  {
+    id: "s6",
+    name: "Priyanshu Hazra",
+    role: "Program Coordinator",
+    department: "CSE (IoTCSBT)",
+    image: "/coreTeam/priyanshuhazra.jpg",
+    instagram:
+      "https://www.instagram.com/priyanshu_cineadda?igsh=OHZpa3dmZ3Exand0",
+    linkedin:
+      "https://www.linkedin.com/in/priyanshu-hazra-4a007b423?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    tier: "coordinator",
+  },
+  {
+    id: "s7",
+    name: "Medimi Nishit Kumar",
+    role: "Jt. Program Coordinator",
+    department: "CSE (IoTCSBT)",
+    image: "/coreTeam/nishitkumar.jpg",
+    instagram: "https://www.instagram.com/nishitt._?igsh=aWNpZWJsY3M1am90",
+    linkedin:
+      "https://www.linkedin.com/in/medimi-nishit-kumar-4b2b26314?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    tier: "coordinator",
+  },
+  {
+    id: "s8",
+    name: "Sarfaraj Haque",
+    role: "Jt. Program Coordinator",
+    department: "IT",
+    image: "/coreTeam/sarfarajhaque.jpg",
+    instagram:
+      "https://www.instagram.com/sarfarazz_this.side?igsh=bnVsbTZzdzdjZjR4",
+    linkedin:
+      "https://www.linkedin.com/in/sarfaraj-haque-2a3a34327?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    tier: "coordinator",
+  },
+
+  // {
+  //   id: "s9",
+  //   name: "Pranjal Pankaj Gupta",
+  //   role: "Technical Head",
+  //   department: "IT",
+  //   image: "/coreTeam/pranjalgupta.jpg",
+  //   instagram: "",
+  //   linkedin: "",
+  //   tier: "head",
+  // },
+
+  {
+    id: "s10",
+    name: "Debjit Paul",
+    role: "Design & Creative Head",
+    department: "CSE (AI)",
+    image: "/coreTeam/debjitpaul.jpg",
+    instagram: "",
+    linkedin: "https://www.linkedin.com/in/debjit-paul-8628a931b",
+    tier: "head",
+  },
+  {
+    id: "s11",
+    name: "Deblina Mondal",
+    role: "Publicity & Media Head",
+    department: "CSE (IoT)",
+    image: "/coreTeam/deblinamondal.jpg",
+    instagram:
+      "https://www.instagram.com/_deblina.music_?igsh=cGloMGhzbmN4OGY2",
+    linkedin:
+      "https://www.linkedin.com/in/deblina-mondal-28594932b?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    tier: "head",
+  },
+  {
+    id: "s12",
+    name: "Arushi Das",
+    role: "Membership Coordinator",
+    department: "CSE (IoTCSBT)",
+    image: "/coreTeam/arushidas.png",
+    instagram:
+      "https://www.instagram.com/arushi._.1705?igsh=MXNhczQzbDVpdHR0Mw==",
+    linkedin: "https://www.linkedin.com/in/arushi-das-27a709329",
+    tier: "head",
+  },
+  {
+    id: "s13",
+    name: "Iman Datta",
+    role: "Web & IT Head",
+    department: "CSE (IoT)",
+    image: "/coreTeam/imandatta.png",
+    instagram: "https://www.instagram.com/i_datta_/",
+    linkedin: "www.linkedin.com/in/iman-datta-161615307",
+    tier: "head",
+  },
+  {
+    id: "s14",
+    name: "Arpan Kumar Sahoo",
+    role: "Ass. Web & IT Head",
+    department: "CSE (IoT)",
+    image: "/coreTeam/ArpanKumarSahoo.png",
+    instagram: "https://www.instagram.com/ar_yeager/",
+    linkedin: "https://www.linkedin.com/in/arpan-kumar-sahoo-668145322/",
+    tier: "head",
+  },
+];
+
+export const TIER_STYLES = {
+  chairman: "border-amber-200 bg-amber-50 text-amber-700",
+  leadership: "border-amber-200 bg-amber-50 text-amber-700",
+  coordinator: "border-sky-200 bg-sky-50 text-sky-700",
+  core: "border-indigo-200 bg-indigo-50 text-indigo-700",
+  head: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  advisor: "border-slate-200 bg-slate-100 text-slate-600",
+};

@@ -33,11 +33,6 @@ export default function Hero() {
           backgroundSize: "36px 36px",
         }}
       />
-
-      {/* ------------------------------------------------------------- */}
-      {/* MOBILE BACKGROUND SVG (below lg)                              */}
-      {/* Clamped to start below navbar height (top-16)                 */}
-      {/* ------------------------------------------------------------- */}
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 top-16 h-[calc(100%-4rem)] w-full lg:hidden"
         viewBox="0 0 400 700"
@@ -91,10 +86,6 @@ export default function Hero() {
         />
       </svg>
 
-      {/* ------------------------------------------------------------- */}
-      {/* DESKTOP BACKGROUND SVGs (lg and up)                            */}
-      {/* Clamped to start below navbar height (top-16)                 */}
-      {/* ------------------------------------------------------------- */}
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 top-16 hidden h-[calc(100%-4rem)] w-full opacity-[0.2] lg:block"
         viewBox="0 0 1600 900"
@@ -176,10 +167,6 @@ export default function Hero() {
           opacity="0.4"
         />
       </svg>
-
-      {/* ------------------------------------------------------------- */}
-      {/* MAIN HERO CONTENT                                              */}
-      {/* ------------------------------------------------------------- */}
       <div className="relative mx-auto max-w-7xl px-5 pb-16 sm:px-6 md:pb-24">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
           {/* LEFT — dialog & action */}
