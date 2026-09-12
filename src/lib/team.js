@@ -45,6 +45,30 @@ export const FACULTY_MEMBERS = [
   },
 ];
 
+// Order + metadata for the 4 Core Committee sections
+export const CORE_SECTIONS = [
+  {
+    key: "executive-leadership",
+    label: "Executive Leadership",
+    tagline: "Steering the chapter's vision",
+  },
+  {
+    key: "secretariat-finance",
+    label: "Secretariat & Finance",
+    tagline: "Running operations, records & the books",
+  },
+  {
+    key: "programs-outreach",
+    label: "Programs & Outreach",
+    tagline: "Driving events, membership & visibility",
+  },
+  {
+    key: "technology-creative",
+    label: "Technology & Creative",
+    tagline: "Building the web presence & visual identity",
+  },
+];
+
 export const STUDENT_MEMBERS = [
   {
     id: "s1",
@@ -56,6 +80,7 @@ export const STUDENT_MEMBERS = [
       "https://www.instagram.com/_.azurely._?igsh=MXMwcm41b2k4eXNndg==&igsi=MXMwcm41b2k4eXNndg==",
     linkedin: "https://www.linkedin.com/in/alokparna-mitra",
     tier: "leadership",
+    section: "executive-leadership",
   },
   {
     id: "s2",
@@ -67,6 +92,7 @@ export const STUDENT_MEMBERS = [
     linkedin:
       "https://www.linkedin.com/in/sreetama-santra-427360322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     tier: "leadership",
+    section: "executive-leadership",
   },
   {
     id: "s3",
@@ -77,8 +103,8 @@ export const STUDENT_MEMBERS = [
     instagram: "https://www.instagram.com/tej03x?igsh=MWtvYWFmMHQ5eXpreg==",
     linkedin:
       "https://www.linkedin.com/in/tejwinder-singh-740038392?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-
     tier: "core",
+    section: "secretariat-finance",
   },
   {
     id: "s4",
@@ -90,6 +116,7 @@ export const STUDENT_MEMBERS = [
       "https://www.instagram.com/debarghyakundu_06?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
     linkedin: "",
     tier: "core",
+    section: "secretariat-finance",
   },
   {
     id: "s5",
@@ -100,6 +127,7 @@ export const STUDENT_MEMBERS = [
     instagram: "https://www.instagram.com/awnkitasarkar?igsh=enJ3OG0yYnp1Mmpj",
     linkedin: "https://www.linkedin.com/in/ankita-sarkar-5a776831a",
     tier: "core",
+    section: "secretariat-finance",
   },
   {
     id: "s6",
@@ -112,6 +140,7 @@ export const STUDENT_MEMBERS = [
     linkedin:
       "https://www.linkedin.com/in/priyanshu-hazra-4a007b423?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     tier: "coordinator",
+    section: "programs-outreach",
   },
   {
     id: "s7",
@@ -123,6 +152,7 @@ export const STUDENT_MEMBERS = [
     linkedin:
       "https://www.linkedin.com/in/medimi-nishit-kumar-4b2b26314?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     tier: "coordinator",
+    section: "programs-outreach",
   },
   {
     id: "s8",
@@ -135,8 +165,8 @@ export const STUDENT_MEMBERS = [
     linkedin:
       "https://www.linkedin.com/in/sarfaraj-haque-2a3a34327?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     tier: "coordinator",
+    section: "programs-outreach",
   },
-
   {
     id: "s9",
     name: "Pranjal Pankaj Gupta",
@@ -146,20 +176,11 @@ export const STUDENT_MEMBERS = [
     instagram: "",
     linkedin: "",
     tier: "head",
+    section: "technology-creative",
   },
 
   {
     id: "s10",
-    name: "Debjit Paul",
-    role: "Design & Creative Head",
-    department: "CSE (AI)",
-    image: "/coreTeam/debjitpaul.jpg",
-    instagram: "",
-    linkedin: "https://www.linkedin.com/in/debjit-paul-8628a931b",
-    tier: "head",
-  },
-  {
-    id: "s11",
     name: "Deblina Mondal",
     role: "Publicity & Media Head",
     department: "CSE (IoT)",
@@ -169,9 +190,10 @@ export const STUDENT_MEMBERS = [
     linkedin:
       "https://www.linkedin.com/in/deblina-mondal-28594932b?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     tier: "head",
+    section: "programs-outreach",
   },
   {
-    id: "s12",
+    id: "s11",
     name: "Arushi Das",
     role: "Membership Coordinator",
     department: "CSE (IoTCSBT)",
@@ -180,9 +202,10 @@ export const STUDENT_MEMBERS = [
       "https://www.instagram.com/arushi._.1705?igsh=MXNhczQzbDVpdHR0Mw==",
     linkedin: "https://www.linkedin.com/in/arushi-das-27a709329",
     tier: "head",
+    section: "programs-outreach",
   },
   {
-    id: "s13",
+    id: "s12",
     name: "Iman Datta",
     role: "Web & IT Head",
     department: "CSE (IoT)",
@@ -190,9 +213,10 @@ export const STUDENT_MEMBERS = [
     instagram: "https://www.instagram.com/i_datta_/",
     linkedin: "www.linkedin.com/in/iman-datta-161615307",
     tier: "head",
+    section: "technology-creative",
   },
   {
-    id: "s14",
+    id: "s13",
     name: "Arpan Kumar Sahoo",
     role: "Ass. Web & IT Head",
     department: "CSE (IoT)",
@@ -200,6 +224,18 @@ export const STUDENT_MEMBERS = [
     instagram: "https://www.instagram.com/ar_yeager/",
     linkedin: "https://www.linkedin.com/in/arpan-kumar-sahoo-668145322/",
     tier: "head",
+    section: "technology-creative",
+  },
+  {
+    id: "s14",
+    name: "Debjit Paul",
+    role: "Design & Creative Head",
+    department: "CSE (AI)",
+    image: "/coreTeam/debjitpaul.jpg",
+    instagram: "",
+    linkedin: "https://www.linkedin.com/in/debjit-paul-8628a931b",
+    tier: "head",
+    section: "technology-creative",
   },
 ];
 
