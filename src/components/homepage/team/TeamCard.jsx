@@ -4,6 +4,8 @@ import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { TIER_STYLES } from "../../../lib/team";
 
 export default function TeamCard({ member, compact = false }) {
+  if (!member) return null;
+
   const cardRef = useRef(null);
   const photoBoxRef = useRef(null);
   const imgRef = useRef(null);
@@ -15,23 +17,26 @@ export default function TeamCard({ member, compact = false }) {
   const outerRoleRef = useRef(null);
   const tlRef = useRef(null);
 
-  const [imgSrc, setImgSrc] = useState(member.image);
+  const [isOpen, setIsOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(
+    member?.image || "/coreTeam/placeholder.jpg",
+  );
   const [nameFontSize, setNameFontSize] = useState(null);
 
-  const tierStyle = TIER_STYLES[member.tier] || TIER_STYLES.advisor;
+  const tierStyle = TIER_STYLES[member?.tier] || TIER_STYLES?.advisor || "";
   const tierDotClass = tierStyle.match(/bg-\S+/)?.[0] || "bg-slate-400";
-  const hasSocials = Boolean(member.linkedin || member.instagram);
-  const hasBio = Boolean(member.bio);
+  const hasSocials = Boolean(member?.linkedin || member?.instagram);
+  const hasBio = Boolean(member?.bio);
 
   // Split the name into per-letter spans so the reveal can cascade
   const nameChars = useMemo(
     () =>
-      member.name.split("").map((ch, i) => (
+      (member?.name || "").split("").map((ch, i) => (
         <span key={`${ch}-${i}`} className="name-char inline-block">
           {ch === " " ? "\u00A0" : ch}
         </span>
       )),
-    [member.name],
+    [member?.name],
   );
 
   /* Fit Vertical Name Inside Photo Container Height */
@@ -63,9 +68,9 @@ export default function TeamCard({ member, compact = false }) {
     const ro = new ResizeObserver(fit);
     ro.observe(container);
     return () => ro.disconnect();
-  }, [member.name, compact]);
+  }, [member?.name, compact]);
 
-  /* GSAP Hover Animation Timeline */
+  /* GSAP Hover & Touch Animation Timeline */
   useEffect(() => {
     const ctx = gsap.context(() => {
       const charEls = gsap.utils.toArray(".name-char", cardRef.current);
@@ -106,13 +111,11 @@ export default function TeamCard({ member, compact = false }) {
         0,
       )
         .to(overlayRef.current, { opacity: 1, duration: 0.4 }, 0)
-        // Outer role label fades + tightens back up while panel takes over
         .to(
           outerRoleRef.current,
           { opacity: 0, letterSpacing: "0.2em", duration: 0.3 },
           0,
         )
-        // Letters of the name cascade in with a slight tumble
         .to(
           charEls,
           {
@@ -125,13 +128,11 @@ export default function TeamCard({ member, compact = false }) {
           },
           0.05,
         )
-        // Green panel slides up
         .to(
           hoverPanelRef.current,
           { yPercent: 0, duration: 0.55, ease: "power4.out" },
           0.1,
         )
-        // Its contents reveal one after another: role -> dept -> bio -> socials
         .to(
           hoverItems,
           {
@@ -153,8 +154,27 @@ export default function TeamCard({ member, compact = false }) {
     };
   }, [member]);
 
-  const handleEnter = () => tlRef.current?.play();
-  const handleLeave = () => tlRef.current?.reverse();
+  /* Handle Mouse Enter / Leave for Desktop */
+  const handleMouseEnter = () => {
+    setIsOpen(true);
+    tlRef.current?.play();
+  };
+
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+    tlRef.current?.reverse();
+  };
+
+  /* Handle Click/Tap for Mobile Devices */
+  const handleCardClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      tlRef.current?.reverse();
+    } else {
+      setIsOpen(true);
+      tlRef.current?.play();
+    }
+  };
 
   // Size tokens — compact (Core Committee) vs normal (Faculty)
   const nameClamp = compact
@@ -175,9 +195,10 @@ export default function TeamCard({ member, compact = false }) {
   return (
     <div
       ref={cardRef}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className="team-card group flex flex-col"
+      onClick={handleCardClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="team-card group flex flex-col cursor-pointer"
     >
       {/* Photo Frame */}
       <div
@@ -188,7 +209,7 @@ export default function TeamCard({ member, compact = false }) {
         <img
           ref={imgRef}
           src={imgSrc}
-          alt={member.name}
+          alt={member?.name || "Team Member"}
           onError={() => setImgSrc("/coreTeam/placeholder.jpg")}
           className="h-full w-full object-cover will-change-transform"
         />
@@ -205,7 +226,7 @@ export default function TeamCard({ member, compact = false }) {
         <div className="absolute bottom-3 left-3 z-40 h-2.5 w-2.5 border-b-2 border-l-2 border-white" />
         <div className="absolute bottom-3 right-3 z-40 h-2.5 w-2.5 border-b-2 border-r-2 border-white" />
 
-        {/* Vertical Name — display serif, cascades in letter by letter */}
+        {/* Vertical Name */}
         <div
           ref={nameRef}
           className="pointer-events-none absolute inset-y-0 right-0 z-30 flex items-center justify-center pr-3"
@@ -235,11 +256,11 @@ export default function TeamCard({ member, compact = false }) {
               <span
                 className={`h-1.5 w-1.5 shrink-0 rounded-full ${tierDotClass}`}
               />
-              {member.role}
+              {member?.role}
             </div>
 
             {/* Department */}
-            {member.department && (
+            {member?.department && (
               <p
                 className={`hover-item mt-1 max-w-[95%] font-mono ${deptTextClass} font-medium uppercase leading-tight tracking-[0.1em] text-white/70`}
               >
@@ -259,23 +280,25 @@ export default function TeamCard({ member, compact = false }) {
             {/* Social Links */}
             {hasSocials && (
               <div className="hover-item mt-2.5 flex items-center gap-2">
-                {member.linkedin && (
+                {member?.linkedin && (
                   <a
                     href={member.linkedin}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`${member.name} on LinkedIn`}
+                    aria-label={`${member?.name} on LinkedIn`}
+                    onClick={(e) => e.stopPropagation()}
                     className={`flex ${socialSize} items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-blue-600`}
                   >
                     <FaLinkedinIn className={socialIconSize} />
                   </a>
                 )}
-                {member.instagram && (
+                {member?.instagram && (
                   <a
                     href={member.instagram}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`${member.name} on Instagram`}
+                    aria-label={`${member?.name} on Instagram`}
+                    onClick={(e) => e.stopPropagation()}
                     className={`flex ${socialSize} items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-pink-500`}
                   >
                     <FaInstagram className={socialIconSize} />
@@ -293,7 +316,7 @@ export default function TeamCard({ member, compact = false }) {
           ref={outerRoleRef}
           className={`font-mono ${outerRoleTextClass} font-bold uppercase leading-snug tracking-[0.08em] text-slate-600`}
         >
-          {member.role}
+          {member?.role}
         </p>
       </div>
     </div>

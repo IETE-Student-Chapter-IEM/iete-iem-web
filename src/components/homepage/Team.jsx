@@ -1,99 +1,229 @@
-import { useState } from "react";
-import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaCrown, FaWallet, FaBullhorn, FaLaptopCode } from "react-icons/fa";
 
-export default function TeamCard({ member, compact = false }) {
-  const [isOpen, setIsOpen] = useState(false);
+import {
+  FACULTY_MEMBERS,
+  STUDENT_MEMBERS,
+  CORE_SECTIONS,
+} from "../../lib/team";
+import TeamCard from "./team/TeamCard";
 
-  const handleCardClick = () => {
-    // Toggles panel state on tap (mobile-friendly)
-    setIsOpen((prev) => !prev);
-  };
+gsap.registerPlugin(ScrollTrigger);
+
+const SECTION_ICONS = {
+  "executive-leadership": FaCrown,
+  "secretariat-finance": FaWallet,
+  "programs-outreach": FaBullhorn,
+  "technology-creative": FaLaptopCode,
+};
+
+function gridClassFor(count) {
+  if (count <= 2) return "mx-auto grid max-w-md grid-cols-2 gap-5 sm:gap-6";
+  if (count === 3)
+    return "mx-auto grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5";
+  return "grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-5";
+}
+
+function FiveUpGrid({ members = [], renderCard }) {
+  return (
+    <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-6 sm:gap-5">
+      {members.map((member, idx) => {
+        if (!member) return null;
+        let extra = "col-span-1 sm:col-span-2";
+        if (idx === 3) extra += " sm:col-start-2";
+        if (idx === 4)
+          extra += " col-span-2 mx-auto w-1/2 sm:col-span-2 sm:mx-0 sm:w-auto";
+
+        return (
+          <div key={member.id || idx} className={extra}>
+            {renderCard(member)}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function Team() {
+  const [activeTab, setActiveTab] = useState("all");
+  const sectionRef = useRef(null);
+
+  const showFaculty = activeTab === "all" || activeTab === "faculty";
+  const showStudents = activeTab === "all" || activeTab === "students";
+
+  const groupedStudents = CORE_SECTIONS.map((section) => ({
+    ...section,
+    members: (STUDENT_MEMBERS || []).filter(
+      (member) => member && member.section === section.key,
+    ),
+  })).filter((group) => group.members.length > 0);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray(".team-card");
+      const headers = gsap.utils.toArray(".core-section-header");
+
+      if (headers.length) {
+        gsap.set(headers, { opacity: 0, x: -20 });
+        ScrollTrigger.batch(headers, {
+          start: "top 92%",
+          once: true,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              x: 0,
+              duration: 0.5,
+              stagger: 0.08,
+              ease: "power2.out",
+              overwrite: true,
+            }),
+        });
+      }
+
+      if (cards.length) {
+        gsap.set(cards, { opacity: 0, y: 24, scale: 0.94 });
+        ScrollTrigger.batch(cards, {
+          start: "top 90%",
+          once: true,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              stagger: 0.06,
+              ease: "power2.out",
+              overwrite: true,
+            }),
+        });
+      }
+
+      ScrollTrigger.refresh();
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeTab]);
 
   return (
-    <div
-      onClick={handleCardClick}
-      className={`team-card group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:shadow-xl ${
-        isOpen ? "mobile-panel-open" : ""
-      } ${compact ? "p-3 sm:p-4" : "p-4 sm:p-6"}`}
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden bg-brand-tint/30 py-16 sm:py-20"
     >
-      {/* Member Avatar / Image Container */}
-      <div className="relative mx-auto aspect-square overflow-hidden rounded-xl bg-slate-100">
-        <img
-          src={member.image || "/placeholder.jpg"}
-          alt={member.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-
-        {/* 
-          Sliding Dark Green Panel:
-          Activates via Desktop CSS Hover (.group-hover:translate-y-0) 
-          OR Mobile React State Toggle (.mobile-panel-open .sliding-panel)
-        */}
-        <div
-          className={`sliding-panel absolute inset-0 flex flex-col justify-between bg-emerald-950/90 p-4 text-white backdrop-blur-sm transition-transform duration-300 ease-in-out ${
-            isOpen
-              ? "translate-y-0"
-              : "translate-y-full group-hover:translate-y-0"
-          }`}
-        >
-          <div>
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-brand-accent">
-              {member.role}
-            </span>
-            <h4 className="mt-1 text-sm font-bold leading-tight sm:text-base">
-              {member.name}
-            </h4>
-            {member.bio && (
-              <p className="mt-2 text-xs text-slate-200 line-clamp-3">
-                {member.bio}
-              </p>
-            )}
-          </div>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-3 pt-2">
-            {member.socials?.linkedin && (
-              <a
-                href={member.socials.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-white/80 hover:text-brand-accent"
-              >
-                <FaLinkedin className="h-4 w-4" />
-              </a>
-            )}
-            {member.socials?.github && (
-              <a
-                href={member.socials.github}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-white/80 hover:text-brand-accent"
-              >
-                <FaGithub className="h-4 w-4" />
-              </a>
-            )}
-            {member.email && (
-              <a
-                href={`mailto:${member.email}`}
-                onClick={(e) => e.stopPropagation()}
-                className="text-white/80 hover:text-brand-accent"
-              >
-                <FaEnvelope className="h-4 w-4" />
-              </a>
-            )}
-          </div>
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+        {/* MAIN SECTION HEADER */}
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight text-brand-primary sm:text-4xl">
+            Meet the Minds Behind the Chapter
+          </h2>
+          <p className="mt-3 text-sm text-slate-600 sm:text-base">
+            Driven by visionary faculty guidance and led by dedicated student
+            leadership.
+          </p>
         </div>
-      </div>
 
-      {/* Static Info Below Image */}
-      <div className="mt-3 text-center">
-        <h4 className="text-sm font-bold text-brand-primary sm:text-base">
-          {member.name}
-        </h4>
-        <p className="text-xs font-medium text-slate-500">{member.role}</p>
+        {/* CATEGORY FILTERS */}
+        <div className="mt-6 flex justify-center gap-2">
+          {[
+            { key: "all", label: "All Members" },
+            { key: "faculty", label: "Faculty Advisors" },
+            { key: "students", label: "Student Core Team" },
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold transition sm:text-sm ${
+                activeTab === tab.key
+                  ? "bg-brand-primary text-white shadow-sm"
+                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* FACULTY SECTION */}
+        {showFaculty && (
+          <div className="mt-12">
+            <div className="mb-6 border-b border-brand-accent/20 pb-2">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-brand-accent">
+                Mentorship & Guidance
+              </span>
+              <h3 className="text-xl font-bold text-brand-primary">
+                Faculty Coordinators
+              </h3>
+            </div>
+
+            <div className="mx-auto grid max-w-2xl grid-cols-2 gap-6 sm:gap-8">
+              {(FACULTY_MEMBERS || []).map((member) => (
+                <TeamCard key={member?.id} member={member} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CORE COMMITTEE SECTION */}
+        {showStudents && (
+          <div className="relative mt-16 overflow-hidden rounded-[2.5rem] border border-brand-primary/15 bg-gradient-to-br from-brand-primary/[0.08] via-emerald-950/[0.04] to-brand-accent/[0.08] px-4 py-10 shadow-xl shadow-brand-primary/5 backdrop-blur-md sm:px-10 sm:py-14">
+            <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-brand-primary/15 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-brand-accent/15 blur-3xl" />
+
+            <div className="pointer-events-none absolute left-1/2 top-0 h-[2px] w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-brand-accent/50 to-transparent" />
+
+            <div className="relative z-10 mb-10 border-b border-brand-accent/30 pb-3">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-brand-accent">
+                Student Leadership
+              </span>
+              <h3 className="text-2xl font-extrabold text-brand-primary sm:text-3xl">
+                Core Committee
+              </h3>
+            </div>
+
+            <div className="relative z-10 mx-auto flex max-w-5xl flex-col gap-14">
+              {groupedStudents.map((group) => {
+                const Icon = SECTION_ICONS[group.key];
+                const count = group.members.length;
+
+                return (
+                  <div key={group.key}>
+                    <div className="core-section-header mb-6 flex items-center gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-primary/15 text-brand-primary shadow-xs">
+                        {Icon && <Icon className="h-4 w-4" />}
+                      </span>
+
+                      <div>
+                        <h4 className="text-sm font-bold uppercase tracking-wide text-brand-primary sm:text-base">
+                          {group.label}
+                        </h4>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {group.tagline}
+                        </p>
+                      </div>
+                    </div>
+
+                    {count === 5 ? (
+                      <FiveUpGrid
+                        members={group.members}
+                        renderCard={(member) => (
+                          <TeamCard member={member} compact />
+                        )}
+                      />
+                    ) : (
+                      <div className={gridClassFor(count)}>
+                        {group.members.map((member) => (
+                          <TeamCard key={member?.id} member={member} compact />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
