@@ -1,12 +1,12 @@
 import Hero from "../components/homepage/Hero"
-import Mission from "../components/sections/Mission";
+import About from "../components/homepage/About";
 import Team from "../components/homepage/Team";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Mission />
+      <About />
       <Team />
     </>
   );
