@@ -28,7 +28,6 @@ export default function TeamCard({ member, compact = false }) {
   const hasSocials = Boolean(member?.linkedin || member?.instagram);
   const hasBio = Boolean(member?.bio);
 
-  // Split the name into per-letter spans so the reveal can cascade
   const nameChars = useMemo(
     () =>
       (member?.name || "").split("").map((ch, i) => (
@@ -87,7 +86,6 @@ export default function TeamCard({ member, compact = false }) {
         return;
       }
 
-      /* Initial setup */
       gsap.set(overlayRef.current, { opacity: 0 });
       gsap.set(nameRef.current, { opacity: 1 });
       gsap.set(charEls, { opacity: 0, y: 16, rotateZ: 4 });
@@ -105,7 +103,7 @@ export default function TeamCard({ member, compact = false }) {
         imgRef.current,
         {
           scale: 1.07,
-          filter: "brightness(0.7) saturate(1.15)",
+          filter: "brightness(0.65) saturate(1.15)",
           duration: 0.6,
         },
         0,
@@ -139,10 +137,10 @@ export default function TeamCard({ member, compact = false }) {
             opacity: 1,
             y: 0,
             duration: 0.4,
-            stagger: 0.08,
+            stagger: 0.06,
             ease: "power2.out",
           },
-          0.32,
+          0.28,
         );
 
       tlRef.current = tl;
@@ -154,7 +152,6 @@ export default function TeamCard({ member, compact = false }) {
     };
   }, [member]);
 
-  /* Handle Mouse Enter / Leave for Desktop */
   const handleMouseEnter = () => {
     setIsOpen(true);
     tlRef.current?.play();
@@ -165,7 +162,6 @@ export default function TeamCard({ member, compact = false }) {
     tlRef.current?.reverse();
   };
 
-  /* Handle Click/Tap for Mobile Devices */
   const handleCardClick = () => {
     if (isOpen) {
       setIsOpen(false);
@@ -176,17 +172,34 @@ export default function TeamCard({ member, compact = false }) {
     }
   };
 
-  // Size tokens — compact (Core Committee) vs normal (Faculty)
+  // Responsive panel height sizing tokens
   const nameClamp = compact
-    ? "text-[clamp(1.75rem,3.4vw,3.25rem)]"
-    : "text-[clamp(2.5rem,5vw,5rem)]";
-  const roleTextClass = compact ? "text-[10px]" : "text-[11px]";
-  const deptTextClass = compact ? "text-[8px]" : "text-[9px]";
-  const bioTextClass = compact ? "text-[9px]" : "text-[10.5px]";
-  const panelHeight = compact ? "h-[35%]" : "h-[34%]";
-  const panelPadding = compact ? "px-3 pb-3 pt-2" : "px-4 pb-4 pt-3";
-  const socialSize = compact ? "h-6 w-6" : "h-7 w-7";
-  const socialIconSize = compact ? "h-2.5 w-2.5" : "h-3 w-3";
+    ? "text-[clamp(1.5rem,3.2vw,3rem)]"
+    : "text-[clamp(2.25rem,4.5vw,4.5rem)]";
+
+  const roleTextClass = compact
+    ? "text-[10px] sm:text-[11px]"
+    : "text-[11px] sm:text-xs";
+  const deptTextClass = compact
+    ? "text-[8.5px] sm:text-[9.5px]"
+    : "text-[9.5px] sm:text-[10.5px]";
+  const bioTextClass = compact
+    ? "text-[10px] sm:text-[11px]"
+    : "text-[11px] sm:text-[12px]";
+
+  // Expanded mobile heights: 58% / 54% height on mobile screens, 38% / 36% on desktop (sm:)
+  const panelHeight = compact ? "h-[58%] sm:h-[38%]" : "h-[54%] sm:h-[36%]";
+
+  const panelPadding = compact
+    ? "px-3 py-2.5 sm:px-4 sm:py-3"
+    : "px-4 py-3 sm:px-5 sm:py-4";
+
+  const socialSize = compact
+    ? "h-6 w-6 sm:h-7 sm:w-7"
+    : "h-7 w-7 sm:h-8 sm:w-8";
+  const socialIconSize = compact
+    ? "h-2.5 w-2.5 sm:h-3 sm:w-3"
+    : "h-3 w-3 sm:h-3.5 sm:w-3.5";
   const outerRoleTextClass = compact
     ? "text-xs sm:text-sm"
     : "text-sm sm:text-base";
@@ -217,7 +230,7 @@ export default function TeamCard({ member, compact = false }) {
         {/* Gradient Overlay */}
         <div
           ref={overlayRef}
-          className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-brand-primary/90 via-brand-primary/25 to-transparent opacity-0"
+          className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-brand-primary/90 via-brand-primary/30 to-transparent opacity-0"
         />
 
         {/* Framing Corners */}
@@ -229,12 +242,12 @@ export default function TeamCard({ member, compact = false }) {
         {/* Vertical Name */}
         <div
           ref={nameRef}
-          className="pointer-events-none absolute inset-y-0 right-0 z-30 flex items-center justify-center pr-3"
+          className="pointer-events-none absolute inset-y-0 right-0 z-30 flex items-center justify-center pr-2 sm:pr-3"
         >
           <span
             ref={nameTextRef}
             style={nameFontSize ? { fontSize: `${nameFontSize}px` } : undefined}
-            className={`[writing-mode:vertical-rl] whitespace-nowrap font-serif ${nameClamp} font-bold italic leading-none tracking-[0.06em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]`}
+            className={`[writing-mode:vertical-rl] whitespace-nowrap font-serif ${nameClamp} font-bold italic leading-none tracking-[0.06em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]`}
           >
             {nameChars}
           </span>
@@ -243,43 +256,45 @@ export default function TeamCard({ member, compact = false }) {
         {/* Green Information Panel */}
         <div
           ref={hoverPanelRef}
-          className={`absolute inset-x-0 bottom-0 z-20 ${panelHeight} overflow-hidden bg-brand-primary/95 backdrop-blur-sm`}
+          className={`absolute inset-x-0 bottom-0 z-20 ${panelHeight} overflow-hidden bg-brand-primary/95 backdrop-blur-md`}
         >
           <div
             ref={hoverPanelContentRef}
-            className={`flex h-full flex-col items-center justify-end ${panelPadding} text-center`}
+            className={`flex h-full flex-col items-center justify-between ${panelPadding} text-center overflow-y-auto scrollbar-none`}
           >
-            {/* Role Header */}
-            <div
-              className={`hover-item flex items-center gap-1.5 ${roleTextClass} font-bold uppercase tracking-[0.2em] text-white`}
-            >
-              <span
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${tierDotClass}`}
-              />
-              {member?.role}
+            <div className="flex w-full flex-col items-center">
+              {/* Role Header */}
+              <div
+                className={`hover-item flex items-center gap-1.5 ${roleTextClass} font-bold uppercase tracking-[0.18em] text-white`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${tierDotClass}`}
+                />
+                {member?.role}
+              </div>
+
+              {/* Department */}
+              {member?.department && (
+                <p
+                  className={`hover-item mt-0.5 max-w-[95%] font-mono ${deptTextClass} font-medium uppercase leading-tight tracking-[0.1em] text-white/75`}
+                >
+                  {member.department}
+                </p>
+              )}
+
+              {/* Bio */}
+              {hasBio && (
+                <p
+                  className={`hover-item mt-1.5 max-w-[95%] font-serif ${bioTextClass} italic leading-snug text-white/85 line-clamp-3 sm:line-clamp-2`}
+                >
+                  {member.bio}
+                </p>
+              )}
             </div>
-
-            {/* Department */}
-            {member?.department && (
-              <p
-                className={`hover-item mt-1 max-w-[95%] font-mono ${deptTextClass} font-medium uppercase leading-tight tracking-[0.1em] text-white/70`}
-              >
-                {member.department}
-              </p>
-            )}
-
-            {/* Bio */}
-            {hasBio && (
-              <p
-                className={`hover-item mt-1.5 line-clamp-2 max-w-[92%] font-serif ${bioTextClass} italic leading-snug text-white/70`}
-              >
-                {member.bio}
-              </p>
-            )}
 
             {/* Social Links */}
             {hasSocials && (
-              <div className="hover-item mt-2.5 flex items-center gap-2">
+              <div className="hover-item mt-2 flex shrink-0 items-center gap-2.5">
                 {member?.linkedin && (
                   <a
                     href={member.linkedin}
@@ -287,7 +302,7 @@ export default function TeamCard({ member, compact = false }) {
                     rel="noreferrer"
                     aria-label={`${member?.name} on LinkedIn`}
                     onClick={(e) => e.stopPropagation()}
-                    className={`flex ${socialSize} items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-blue-600`}
+                    className={`flex ${socialSize} items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-blue-600`}
                   >
                     <FaLinkedinIn className={socialIconSize} />
                   </a>
@@ -299,7 +314,7 @@ export default function TeamCard({ member, compact = false }) {
                     rel="noreferrer"
                     aria-label={`${member?.name} on Instagram`}
                     onClick={(e) => e.stopPropagation()}
-                    className={`flex ${socialSize} items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-pink-500`}
+                    className={`flex ${socialSize} items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white hover:text-pink-500`}
                   >
                     <FaInstagram className={socialIconSize} />
                   </a>
