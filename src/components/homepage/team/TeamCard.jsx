@@ -23,8 +23,6 @@ export default function TeamCard({ member, compact = false }) {
   );
   const [nameFontSize, setNameFontSize] = useState(null);
 
-  const tierStyle = TIER_STYLES[member?.tier] || TIER_STYLES?.advisor || "";
-  const tierDotClass = tierStyle.match(/bg-\S+/)?.[0] || "bg-slate-400";
   const hasSocials = Boolean(member?.linkedin || member?.instagram);
   const hasBio = Boolean(member?.bio);
 
@@ -111,7 +109,7 @@ export default function TeamCard({ member, compact = false }) {
         .to(overlayRef.current, { opacity: 1, duration: 0.4 }, 0)
         .to(
           outerRoleRef.current,
-          { opacity: 0, letterSpacing: "0.2em", duration: 0.3 },
+          { opacity: 0.5, letterSpacing: "0.12em", duration: 0.3 },
           0,
         )
         .to(
@@ -172,27 +170,24 @@ export default function TeamCard({ member, compact = false }) {
     }
   };
 
-  // Responsive panel height sizing tokens
+  // Sizing tokens
   const nameClamp = compact
     ? "text-[clamp(1.5rem,3.2vw,3rem)]"
     : "text-[clamp(2.25rem,4.5vw,4.5rem)]";
 
-  const roleTextClass = compact
-    ? "text-[10px] sm:text-[11px]"
-    : "text-[11px] sm:text-xs";
   const deptTextClass = compact
-    ? "text-[8.5px] sm:text-[9.5px]"
-    : "text-[9.5px] sm:text-[10.5px]";
-  const bioTextClass = compact
     ? "text-[10px] sm:text-[11px]"
     : "text-[11px] sm:text-[12px]";
+  const bioTextClass = compact
+    ? "text-[10.5px] sm:text-[11.5px]"
+    : "text-[11.5px] sm:text-[12.5px]";
 
-  // Expanded mobile heights: 58% / 54% height on mobile screens, 38% / 36% on desktop (sm:)
-  const panelHeight = compact ? "h-[58%] sm:h-[38%]" : "h-[54%] sm:h-[36%]";
+  // Adjusted panel height for better proportion without inner role
+  const panelHeight = compact ? "h-[45%] sm:h-[35%]" : "h-[42%] sm:h-[32%]";
 
   const panelPadding = compact
-    ? "px-3 py-2.5 sm:px-4 sm:py-3"
-    : "px-4 py-3 sm:px-5 sm:py-4";
+    ? "p-3 sm:px-4 sm:py-3"
+    : "p-3.5 sm:px-5 sm:py-4";
 
   const socialSize = compact
     ? "h-6 w-6 sm:h-7 sm:w-7"
@@ -253,7 +248,7 @@ export default function TeamCard({ member, compact = false }) {
           </span>
         </div>
 
-        {/* Green Information Panel */}
+        {/* Dark Green Information Panel */}
         <div
           ref={hoverPanelRef}
           className={`absolute inset-x-0 bottom-0 z-20 ${panelHeight} overflow-hidden bg-brand-primary/95 backdrop-blur-md`}
@@ -262,21 +257,11 @@ export default function TeamCard({ member, compact = false }) {
             ref={hoverPanelContentRef}
             className={`flex h-full flex-col items-center justify-between ${panelPadding} text-center overflow-y-auto scrollbar-none`}
           >
-            <div className="flex w-full flex-col items-center">
-              {/* Role Header */}
-              <div
-                className={`hover-item flex items-center gap-1.5 ${roleTextClass} font-bold uppercase tracking-[0.18em] text-white`}
-              >
-                <span
-                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${tierDotClass}`}
-                />
-                {member?.role}
-              </div>
-
+            <div className="flex w-full flex-col items-center justify-center my-auto">
               {/* Department */}
               {member?.department && (
                 <p
-                  className={`hover-item mt-0.5 max-w-[95%] font-mono ${deptTextClass} font-medium uppercase leading-tight tracking-[0.1em] text-white/75`}
+                  className={`hover-item font-mono ${deptTextClass} font-semibold uppercase leading-tight tracking-[0.12em] text-white/90`}
                 >
                   {member.department}
                 </p>

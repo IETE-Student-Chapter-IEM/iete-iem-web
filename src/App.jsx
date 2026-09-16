@@ -12,11 +12,6 @@ function App() {
       {/* <PageBackground> */}
       <Routes>
         <Route path="/" element={<HomePage />} />
-
-        {/* Future pages */}
-        {/* <Route path="/about" element={<AboutPage />} /> */}
-        {/* <Route path="/events" element={<EventsPage />} /> */}
-        {/* <Route path="/team" element={<TeamPage />} /> */}
       </Routes>
       {/* </PageBackground> */}
     </BrowserRouter>
