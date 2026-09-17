@@ -1,0 +1,64 @@
+import { useState } from "react";
+import { galleryData } from "../../lib/galleryData";
+import GalleryCard from "./gallery/GalleryCard";
+
+// every 5th and 8th-in-cycle card goes wide — deterministic but irregular,
+// so the grid reads as a bento layout rather than a uniform grid.
+const isWide = (i) => i % 5 === 0;
+
+export default function Gallery({ data = galleryData }) {
+  const [activeYear, setActiveYear] = useState(data[0].year);
+  const current = data.find((y) => y.year === activeYear) || data[0];
+
+  return (
+    <section className="bg-[#EDF3EC] px-4 sm:px-8 py-10">
+      <div className="max-w-6xl mx-auto">
+        <p className="text-[10px] uppercase tracking-wide text-[#1C8A54] font-semibold mb-1">
+          Gallery
+        </p>
+        <h2
+          className="text-xl sm:text-2xl font-[700] text-[#0B2E22] leading-tight mb-5"
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+        >
+          Moments from every chapter year.
+        </h2>
+
+        {/* year tabs — same PCB-pin style as Activities */}
+        <div className="flex gap-1 overflow-x-auto pb-2 mb-4 border-b border-[#0B2E22]/15">
+          {data.map((y) => {
+            const active = y.year === activeYear;
+            return (
+              <button
+                key={y.year}
+                onClick={() => setActiveYear(y.year)}
+                className="relative shrink-0 px-2.5 py-1.5 text-xs font-medium transition-colors"
+                style={{ color: active ? "#0B2E22" : "#57655D" }}
+              >
+                {y.year}
+                {active && (
+                  <span
+                    className="absolute left-1/2 -bottom-[5px] -translate-x-1/2 h-1.5 w-1.5"
+                    style={{
+                      background: "#1C8A54",
+                      clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+                    }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* denser bento grid — small fixed-height tiles, tight gap */}
+        <div
+          key={activeYear}
+          className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2"
+        >
+          {current.events.map((ev, i) => (
+            <GalleryCard event={ev} key={ev.id} wide={isWide(i)} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
