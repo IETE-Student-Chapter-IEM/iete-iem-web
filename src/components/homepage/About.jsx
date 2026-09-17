@@ -22,9 +22,6 @@ export default function About() {
   const logoWrapperRef = useRef(null);
   const backgroundRef = useRef(null);
 
-  // Only devices with a real mouse (hover + fine pointer) get tilt/parallax.
-  // Touch devices skip all of this — no listeners attached, no rAF loop ever
-  // started, so there's zero wasted work on phones/tablets.
   const canHoverRef = useRef(false);
 
   // ---- Logo tilt ----
