@@ -31,7 +31,7 @@ export default function GalleryCard({ event, wide = false }) {
 
   return (
     <div
-      className={`relative ${wide ? "sm:col-span-2" : ""}`}
+      className={`relative ${wide ? "col-span-2" : ""}`}
       onMouseEnter={() => (pausedRef.current = true)}
       onMouseLeave={() => (pausedRef.current = false)}
     >
@@ -44,12 +44,12 @@ export default function GalleryCard({ event, wide = false }) {
       ].map((pos, i) => (
         <span
           key={i}
-          className={`pointer-events-none absolute z-10 h-1 w-1 border-white/70 ${pos}`}
+          className={`pointer-events-none absolute z-10 h-1.5 w-1.5 border-white/70 ${pos}`}
         />
       ))}
 
-      {/* fixed, small height — this is what was making it too big */}
-      <div className="relative h-16 sm:h-20 w-full overflow-hidden bg-[#0B2E22] rounded-[2px]">
+      {/* true 16:9 tile, sized by grid column width — bigger since fewer cols */}
+      <div className="relative w-full aspect-video overflow-hidden bg-[#0B2E22] rounded-[3px]">
         <div
           className="flex h-full transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
@@ -67,26 +67,26 @@ export default function GalleryCard({ event, wide = false }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B2E22]/95 via-[#0B2E22]/25 to-transparent" />
 
-        <div className="absolute bottom-0 left-0 right-0 px-1.5 py-1">
+        <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 sm:px-3 sm:py-2">
           <span
-            className="inline-block text-[6.5px] font-bold uppercase tracking-wide px-1 py-[1px] rounded-[1px] leading-none mb-0.5"
+            className="inline-block text-[7px] sm:text-[9px] lg:text-[10px] font-bold uppercase tracking-wide px-1.5 py-[2px] rounded-[1px] leading-none mb-1"
             style={{ background: color, color: "#fff" }}
           >
             {event.category}
           </span>
           <h3
-            className="text-white text-[9px] sm:text-[10px] font-medium leading-tight truncate"
+            className="text-white text-[10px] sm:text-xs lg:text-sm font-medium leading-tight truncate"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
             {event.title}
           </h3>
         </div>
 
-        <div className="absolute top-1 right-1 flex gap-[2px] z-10">
+        <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex gap-[3px] z-10">
           {event.photos.map((_, i) => (
             <span
               key={i}
-              className="h-[3px] w-[3px] rounded-full transition-opacity"
+              className="h-1 w-1 rounded-full transition-opacity"
               style={{ background: "#fff", opacity: i === index ? 1 : 0.3 }}
             />
           ))}

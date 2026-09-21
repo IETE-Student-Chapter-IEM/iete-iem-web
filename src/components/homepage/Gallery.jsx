@@ -2,9 +2,8 @@ import { useState } from "react";
 import { galleryData } from "../../lib/galleryData";
 import GalleryCard from "./gallery/GalleryCard";
 
-// every 5th and 8th-in-cycle card goes wide — deterministic but irregular,
-// so the grid reads as a bento layout rather than a uniform grid.
-const isWide = (i) => i % 5 === 0;
+// every 4th card goes wide (2 cols) — deterministic but irregular bento feel
+const isWide = (i) => i % 4 === 0;
 
 export default function Gallery({ data = galleryData }) {
   const [activeYear, setActiveYear] = useState(data[0].year);
@@ -49,10 +48,10 @@ export default function Gallery({ data = galleryData }) {
           })}
         </div>
 
-        {/* denser bento grid — small fixed-height tiles, tight gap */}
+      
         <div
           key={activeYear}
-          className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 sm:gap-x-3 gap-y-3 sm:gap-y-4"
         >
           {current.events.map((ev, i) => (
             <GalleryCard event={ev} key={ev.id} wide={isWide(i)} />
