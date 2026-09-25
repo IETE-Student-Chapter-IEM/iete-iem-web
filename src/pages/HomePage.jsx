@@ -9,7 +9,7 @@ import Gallery from "../components/homepage/Gallery"; // Import your Gallery com
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar />
+
 
       <main>
         {/* Hero Section */}

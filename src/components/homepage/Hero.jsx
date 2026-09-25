@@ -3,9 +3,15 @@ import { Users, CalendarDays, Wrench } from "lucide-react";
 
 const HERO_IMAGES = [
   "/hero/hero-1.jpeg",
-  "/hero/hero-2.jpeg",
-  "/hero/hero-3.jpeg",
   "/hero/hero-4.jpeg",
+  "/hero/hero-5.jpeg",
+  "/hero/1.JPG",
+  "/hero/2.png",
+  "/hero/4.png",
+  "/hero/5.png",
+  "/hero/6.png",
+  "/hero/7.jpeg",
+  "/hero/8.jpeg",
 ];
 
 const SLIDE_INTERVAL_MS = 3500;

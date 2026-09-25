@@ -10,9 +10,21 @@ const NAV_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: FaLinkedinIn, href: "https://www.linkedin.com/in/iem-iete-students-forum-8b3145248/", label: "LinkedIn" },
-  { icon: FaInstagram, href: "https://www.instagram.com/iemietestudentsforum/", label: "Instagram" },
-  { icon: FaFacebookF, href: "https://www.facebook.com/profile.php?id=100084318941744", label: "Facebook" },
+  {
+    icon: FaLinkedinIn,
+    href: "https://www.linkedin.com/in/iem-iete-students-forum-8b3145248/",
+    label: "LinkedIn",
+  },
+  {
+    icon: FaInstagram,
+    href: "https://www.instagram.com/iemietestudentsforum/",
+    label: "Instagram",
+  },
+  {
+    icon: FaFacebookF,
+    href: "https://www.facebook.com/profile.php?id=100084318941744",
+    label: "Facebook",
+  },
 ];
 
 export default function Footer() {
@@ -27,14 +39,14 @@ export default function Footer() {
               className="flex items-center gap-2 sm:gap-3"
               aria-label="IETE Student Chapter IEM Kolkata"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-emerald-900/10 shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
                 <img
                   src="/LogoNav.png"
                   alt="IETE Student Chapter"
                   className="h-full w-full object-contain"
                 />
               </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-emerald-900/10 shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
                 <img
                   src="/CLogo.png"
                   alt="IEM Kolkata Logo"

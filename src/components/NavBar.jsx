@@ -38,7 +38,6 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* BRAND — VISIBLE ON BOTH MOBILE AND DESKTOP */}
         <a
           href="/"
           onClick={closeMenu}
@@ -46,7 +45,7 @@ export default function Navbar() {
           aria-label="IETE Student Chapter IEM Kolkata"
         >
           {/* IETE Logo */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white sm:h-11 sm:w-11">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg  sm:h-11 sm:w-11">
             <img
               src="/LogoNav.png"
               alt="IETE Student Chapter"
@@ -55,7 +54,7 @@ export default function Navbar() {
           </div>
 
           {/* College Logo */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white sm:h-11 sm:w-11">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:h-11 sm:w-11">
             <img
               src="/CLogo.png"
               alt="IEM Kolkata Logo"
