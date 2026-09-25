@@ -4,7 +4,7 @@ export const FACULTY_MEMBERS = [
     name: "Prof. Dr. Moutushi Singh",
     role: "Faculty Chairman",
     department: "HoD, IT / CSE / CSE (IoT) / CSE (IoTCSBT) / CSE (AI)",
-    image: "/coreTeam/moutushisingh1.jpeg",
+    image: "/coreTeam/moutushisingh2.png",
     bio: "Chairs the Management Committee and heads the department, setting the chapter's strategic direction.",
     instagram: "",
     linkedin: "",
