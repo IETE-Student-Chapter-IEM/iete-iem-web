@@ -4,45 +4,41 @@ import About from "../components/homepage/About";
 import Team from "../components/homepage/Team";
 import Footer from "../components/Footer";
 import ActivitiesTimeline from "../components/homepage/ActivitiesTimeline";
-import Gallery from "../components/homepage/Gallery"; // Import your Gallery component here
+import Gallery from "../components/homepage/Gallery";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-
+    <div className="min-h-screen bg-white text-slate-900 scroll-smooth">
+      <Navbar />
 
       <main>
         {/* Hero Section */}
         <Hero />
 
         {/* About Section */}
-        <section id="about" className="scroll-mt-[80px]">
+        <section id="about" className="scroll-mt-[76px]">
           <About />
         </section>
 
-        {/* Activities & Events Section */}
-        <section id="activities" className="scroll-mt-[80px]">
-          <div id="events">
-            <ActivitiesTimeline />
-          </div>
+        {/* Activities Section */}
+        <section id="activities" className="scroll-mt-[76px]">
+          <ActivitiesTimeline />
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="scroll-mt-[80px]">
+        <section id="gallery" className="scroll-mt-[76px]">
           <Gallery />
         </section>
 
         {/* Team Section */}
-        <section id="team" className="scroll-mt-[80px]">
+        <section id="team" className="scroll-mt-[76px]">
           <Team />
         </section>
       </main>
 
-      {/* Footer & Contact Section */}
-      <footer id="contact" className="scroll-mt-[80px]">
-        <div id="join">
-          <Footer />
-        </div>
+      {/* Contact Section */}
+      <footer id="contact" className="scroll-mt-[76px]">
+        <Footer />
       </footer>
     </div>
   );
