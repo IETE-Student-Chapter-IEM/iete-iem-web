@@ -321,7 +321,7 @@ export default function ActivitiesTimeline({ data = activitiesData }) {
 
           <div
             ref={stripRef}
-            className="at-strip flex gap-4 overflow-x-auto pb-2 -mx-1 px-1"
+            className="at-strip flex gap-4 overflow-x-auto p-1 -m-1"
             style={{ scrollSnapType: "x proximity", cursor: "grab" }}
           >
             {current.events.map((ev) => {
@@ -336,7 +336,7 @@ export default function ActivitiesTimeline({ data = activitiesData }) {
                   style={{
                     scrollSnapAlign: "start",
                     borderColor: isOpen ? accent : "rgba(11,46,34,0.12)",
-                    boxShadow: isOpen ? `0 0 0 1.5px ${accent}` : "none",
+                    boxShadow: isOpen ? `inset 0 0 0 2px ${accent}` : "none",
                     outlineColor: accent,
                   }}
                 >
