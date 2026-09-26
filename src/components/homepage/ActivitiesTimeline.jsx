@@ -249,7 +249,7 @@ export default function ActivitiesTimeline({ data = activitiesData }) {
   };
 
   return (
-    <section ref={sectionRef} className="bg-[#EDF3EC] px-4 sm:px-8 py-14">
+    <section ref={sectionRef} className="bg-[#EDF3EC] px-4 sm:px-8 py-10">
       <style>{`
         .at-strip::-webkit-scrollbar { display: none; }
         .at-strip { scrollbar-width: none; }

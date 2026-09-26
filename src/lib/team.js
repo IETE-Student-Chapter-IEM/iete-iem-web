@@ -159,7 +159,7 @@ export const STUDENT_MEMBERS = [
     name: "Sarfaraj Haque",
     role: "Jt. Program Coordinator",
     department: "IT",
-    image: "/coreTeam/sarfarajhaque.jpg",
+    image: "/coreTeam/sarfarajhaque1.png",
     instagram:
       "https://www.instagram.com/sarfarazz_this.side?igsh=bnVsbTZzdzdjZjR4",
     linkedin:
@@ -209,9 +209,9 @@ export const STUDENT_MEMBERS = [
     name: "Iman Datta",
     role: "Web & IT Head",
     department: "CSE (IoT)",
-    image: "/coreTeam/imandatta.png",
+    image: "/coreTeam/imandatta1.png",
     instagram: "https://www.instagram.com/i_datta_/",
-    linkedin: "www.linkedin.com/in/iman-datta-161615307",
+    linkedin: "https://www.linkedin.com/in/iman-datta-161615307/",
     tier: "head",
     section: "technology-creative",
   },

@@ -6,13 +6,47 @@ export const activitiesData = [
     label: "Last Year",
     events: [
       {
-        title: "Umbrella Distribution Drive",
-        subtitle: "Our Warriors in White",
-        date: "22 July 2025",
+        title: "AURORA 2K26",
+        subtitle: "A Five-Day Journey of Innovation & Creativity",
+        date: "23–27 February 2026",
         mode: "Offline",
-        category: "Social Initiative",
+        category: "Flagship Event",
         description:
-          "An umbrella distribution drive was organized for the Kolkata Traffic Police, recognizing their contribution and service to the city.",
+          "The flagship event of IEM-ISF brought five days of technology, creativity, competition and entertainment to life with 200+ enthusiastic participants.",
+        participants: "200+",
+        events: [
+          {
+            title: "ALOHADOCS DAY",
+            date: "23 February 2026",
+            description:
+              "A documentary-making competition where participants showcased India’s diversity, culture, heritage, people and everyday stories through three-minute videos.",
+            participants: "50+",
+          },
+          {
+            title: "CODIUM MAXIMA",
+            date: "24 February 2026",
+            description:
+              "A blind coding challenge focused on pure logic and problem-solving, where participants solved coding problems without seeing their monitors.",
+          },
+          {
+            title: "RIDICULOUS LIVE",
+            date: "25 February 2026",
+            description:
+              "A talent-focused event featuring short stories, recitations, music, instruments, drama, short films and stand-up comedy.",
+          },
+          {
+            title: "MINDUS ACCIO",
+            date: "26 February 2026",
+            description:
+              "A quiz competition covering games, sports, movies, pop culture, Harry Potter, books and legendary trilogies.",
+          },
+          {
+            title: "HACKASTRA",
+            date: "27 February 2026",
+            description:
+              "The grand finale of Aurora 2K26, challenging teams to develop solutions for real-world problems across Education, Healthcare, Agriculture, Industry and Sustainable Society.",
+          },
+        ],
       },
       {
         title: "Foundation Day Celebration",
@@ -103,47 +137,13 @@ export const activitiesData = [
         ],
       },
       {
-        title: "AURORA 2K26",
-        subtitle: "A Five-Day Journey of Innovation & Creativity",
-        date: "23–27 February 2026",
+        title: "Umbrella Distribution Drive",
+        subtitle: "Our Warriors in White",
+        date: "22 July 2025",
         mode: "Offline",
-        category: "Flagship Event",
+        category: "Social Initiative",
         description:
-          "The flagship event of IEM-ISF brought five days of technology, creativity, competition and entertainment to life with 200+ enthusiastic participants.",
-        participants: "200+",
-        events: [
-          {
-            title: "ALOHADOCS DAY",
-            date: "23 February 2026",
-            description:
-              "A documentary-making competition where participants showcased India’s diversity, culture, heritage, people and everyday stories through three-minute videos.",
-            participants: "50+",
-          },
-          {
-            title: "CODIUM MAXIMA",
-            date: "24 February 2026",
-            description:
-              "A blind coding challenge focused on pure logic and problem-solving, where participants solved coding problems without seeing their monitors.",
-          },
-          {
-            title: "RIDICULOUS LIVE",
-            date: "25 February 2026",
-            description:
-              "A talent-focused event featuring short stories, recitations, music, instruments, drama, short films and stand-up comedy.",
-          },
-          {
-            title: "MINDUS ACCIO",
-            date: "26 February 2026",
-            description:
-              "A quiz competition covering games, sports, movies, pop culture, Harry Potter, books and legendary trilogies.",
-          },
-          {
-            title: "HACKASTRA",
-            date: "27 February 2026",
-            description:
-              "The grand finale of Aurora 2K26, challenging teams to develop solutions for real-world problems across Education, Healthcare, Agriculture, Industry and Sustainable Society.",
-          },
-        ],
+          "An umbrella distribution drive was organized for the Kolkata Traffic Police, recognizing their contribution and service to the city.",
       },
     ],
   },

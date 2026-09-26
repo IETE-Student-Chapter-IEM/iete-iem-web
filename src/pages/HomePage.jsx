@@ -13,31 +13,33 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <Hero />
+        <section id="hero" className="scroll-mt-[-10px]">
+          <Hero />
+        </section>
 
         {/* About Section */}
-        <section id="about" className="scroll-mt-[76px]">
+        <section id="about" className="scroll-mt-[-10px]">
           <About />
         </section>
 
         {/* Activities Section */}
-        <section id="activities" className="scroll-mt-[76px]">
+        <section id="activities" className="scroll-mt-[-10px]">
           <ActivitiesTimeline />
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="scroll-mt-[76px]">
+        <section id="gallery" className="scroll-mt-[-10px]">
           <Gallery />
         </section>
 
         {/* Team Section */}
-        <section id="team" className="scroll-mt-[76px]">
+        <section id="team" className="scroll-mt-[-10px]">
           <Team />
         </section>
       </main>
 
       {/* Contact Section */}
-      <footer id="contact" className="scroll-mt-[76px]">
+      <footer id="contact" className="scroll-mt-[-10px]">
         <Footer />
       </footer>
     </div>

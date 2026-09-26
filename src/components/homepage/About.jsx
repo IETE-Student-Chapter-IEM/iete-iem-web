@@ -201,7 +201,7 @@ export default function About() {
       id="about"
       onMouseMove={handleSectionMouseMove}
       onMouseLeave={handleSectionMouseLeave}
-      className="relative w-full overflow-hidden bg-brand-primary px-1 py-16 sm:py-24 md:py-32"
+      className="relative w-full overflow-hidden bg-brand-primary px-1 py-10 sm:py-16 md:py-20"
     >
       <AboutBackground ref={backgroundRef} />
 
@@ -264,45 +264,6 @@ export default function About() {
               className="mx-auto max-w-md text-sm leading-relaxed text-white/80 sm:max-w-xl sm:text-base md:mx-0 md:max-w-2xl md:text-lg"
               dimOpacity={0.25}
             />
-
-            {/* Stat cards — stacked on mobile, 3-up from sm */}
-            <div className="about-stat-grid mt-8 grid grid-cols-1 gap-3 border-t border-white/15 pt-6 sm:mt-10 sm:grid-cols-3 sm:pt-8">
-              <div className="about-stat-card group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/50 hover:bg-white/10 sm:block sm:gap-0">
-                <Users className="h-5 w-5 shrink-0 text-brand-accent" />
-                <div className="text-left sm:mt-2">
-                  <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-white/50">
-                    Community
-                  </span>
-                  <span className="mt-0.5 block text-sm font-bold text-white">
-                    Student Driven
-                  </span>
-                </div>
-              </div>
-
-              <div className="about-stat-card group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/50 hover:bg-white/10 sm:block sm:gap-0">
-                <Cpu className="h-5 w-5 shrink-0 text-brand-accent" />
-                <div className="text-left sm:mt-2">
-                  <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-white/50">
-                    Focus
-                  </span>
-                  <span className="mt-0.5 block text-sm font-bold text-white">
-                    Tech & Innovation
-                  </span>
-                </div>
-              </div>
-
-              <div className="about-stat-card group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/50 hover:bg-white/10 sm:block sm:gap-0">
-                <Rocket className="h-5 w-5 shrink-0 text-brand-accent" />
-                <div className="text-left sm:mt-2">
-                  <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-white/50">
-                    Approach
-                  </span>
-                  <span className="mt-0.5 block text-sm font-bold text-white">
-                    Learn · Build · Lead
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

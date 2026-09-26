@@ -2,92 +2,120 @@ import { useEffect, useState, useRef } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const NAV_LINKS = [
+  { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Activities", href: "#activities" },
-  { label: "Team", href: "#team" },
   { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
+  { label: "Team", href: "#team" },
 ];
+
+const OFFSET = 76;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("#hero");
 
-  const lastScrollY = useRef(0);
+  const clickLock = useRef(false);
+  const lockTimeout = useRef(null);
 
-  // Handle Scroll Direction & Background Blur Trigger
+  const computeActive = () => {
+    let current = NAV_LINKS[0].href;
+
+    for (const link of NAV_LINKS) {
+      const el = document.querySelector(link.href);
+
+      if (el && el.getBoundingClientRect().top <= OFFSET) {
+        current = link.href;
+      }
+    }
+
+    const atBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 2;
+
+    if (atBottom) {
+      current = NAV_LINKS[NAV_LINKS.length - 1].href;
+    }
+
+    return current;
+  };
+
+  const releaseLock = () => {
+    clickLock.current = false;
+
+    if (lockTimeout.current) {
+      clearTimeout(lockTimeout.current);
+      lockTimeout.current = null;
+    }
+
+    setActiveSection(computeActive());
+  };
+
+  // Active section detection
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      if (clickLock.current) return;
 
-      // Toggle glassmorphism / shadow threshold
-      setScrolled(currentScrollY > 20);
-
-      // Scroll direction detection (only trigger after initial offset)
-      if (currentScrollY > 100) {
-        if (currentScrollY > lastScrollY.current && !open) {
-          // Scrolling DOWN -> Hide Navbar
-          setVisible(false);
-        } else {
-          // Scrolling UP -> Show Navbar
-          setVisible(true);
-        }
-      } else {
-        setVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
+      setActiveSection(computeActive());
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [open]);
 
-  // Lock Body Scroll when Mobile Menu is open
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Cancel click lock when user manually scrolls
+  useEffect(() => {
+    const cancelLock = () => {
+      if (clickLock.current) {
+        releaseLock();
+      }
+    };
+
+    window.addEventListener("wheel", cancelLock, { passive: true });
+    window.addEventListener("touchmove", cancelLock, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", cancelLock);
+      window.removeEventListener("touchmove", cancelLock);
+    };
+  }, []);
+
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
 
-  // Highlight Active Link using Intersection Observer
-  useEffect(() => {
-    const handleObserver = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(`#${entry.target.id}`);
-        }
-      });
-    };
+  const closeMenu = () => {
+    setOpen(false);
+  };
 
-    const observer = new IntersectionObserver(handleObserver, {
-      rootMargin: "-10% 0px -50% 0px",
-      threshold: [0, 0.25, 0.5],
-    });
+  const handleNavClick = (href) => {
+    closeMenu();
 
-    NAV_LINKS.forEach((link) => {
-      const element = document.querySelector(link.href);
-      if (element) observer.observe(element);
-    });
+    setActiveSection(href);
 
-    return () => observer.disconnect();
-  }, []);
+    clickLock.current = true;
 
-  const closeMenu = () => setOpen(false);
+    if (lockTimeout.current) {
+      clearTimeout(lockTimeout.current);
+    }
+
+    lockTimeout.current = setTimeout(() => {
+      releaseLock();
+    }, 1000);
+  };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 h-[76px] transition-all duration-300 transform ${
-        visible ? "translate-y-0" : "-translate-y-full"
-      } ${
-        scrolled
-          ? "bg-white/80 border-b border-slate-200/80 shadow-sm backdrop-blur-md"
-          : "bg-white border-b border-slate-100"
-      }`}
-    >
+    <header className="fixed inset-x-0 top-0 z-50 h-[76px] bg-white/80 backdrop-blur-md border-b border-slate-200/70 shadow-sm">
       <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* BRAND / LOGOS */}
         <a
@@ -114,14 +142,15 @@ export default function Navbar() {
             />
           </div>
 
-          {/* Vertical Divider */}
+          {/* Divider */}
           <div className="h-7 w-[1px] bg-slate-200" />
 
-          {/* Brand Text Header */}
+          {/* Brand Text */}
           <div className="block leading-none">
             <div className="text-xs font-bold tracking-tight text-[#0B1B33] sm:text-[15px]">
               IETE Students' Forum
             </div>
+
             <div className="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[10px]">
               IEM Kolkata
             </div>
@@ -129,17 +158,19 @@ export default function Navbar() {
         </a>
 
         {/* DESKTOP NAVIGATION */}
-        <div className="hidden items-center gap-1 rounded-full border border-slate-200/60 bg-slate-50/50 p-1.5 backdrop-blur-sm md:flex">
+        <div className="hidden items-center gap-1 rounded-full border border-slate-200/60 bg-white/50 p-1.5 backdrop-blur-sm md:flex">
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href;
+
             return (
               <a
                 key={link.href}
                 href={link.href}
+                onClick={() => handleNavClick(link.href)}
                 className={`relative rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 ${
                   isActive
                     ? "bg-white text-[#2563EB] shadow-sm"
-                    : "text-slate-600 hover:text-[#0B1B33] hover:bg-slate-100/60"
+                    : "text-slate-600 hover:bg-slate-100/60 hover:text-[#0B1B33]"
                 }`}
               >
                 {link.label}
@@ -148,13 +179,14 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* DESKTOP CTA BUTTON */}
+        {/* DESKTOP CTA */}
         <div className="hidden md:flex md:items-center">
           <a
             href="#join"
             className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-[#2563EB] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#1D4ED8] hover:shadow-md active:scale-95"
           >
             <span>Join us</span>
+
             <ArrowUpRight
               className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               strokeWidth={2.5}
@@ -162,17 +194,17 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* MOBILE MENU TOGGLE BUTTON */}
+        {/* MOBILE MENU BUTTON */}
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0B1B33] transition-colors hover:bg-slate-50 active:scale-95 md:hidden"
+          className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white/80 text-[#0B1B33] transition-colors hover:bg-slate-50 active:scale-95 md:hidden"
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={open}
         >
           {open ? (
             <X
-              className="h-5 w-5 transition-transform duration-200 rotate-90"
+              className="h-5 w-5 rotate-90 transition-transform duration-200"
               strokeWidth={2}
             />
           ) : (
@@ -184,12 +216,12 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* MOBILE MENU OVERLAY & DROPDOWN */}
+      {/* MOBILE MENU */}
       <div
-        className={`fixed inset-x-0 top-[76px] h-[calc(100vh-76px)] bg-white/95 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-x-0 top-[76px] h-[calc(100vh-76px)] bg-white/90 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden ${
           open
-            ? "pointer-events-auto opacity-100 translate-y-0"
-            : "pointer-events-none opacity-0 -translate-y-4"
+            ? "pointer-events-auto translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-4 opacity-0"
         }`}
       >
         <div className="flex h-full flex-col justify-between px-6 pb-10 pt-6">
@@ -198,7 +230,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={closeMenu}
+                onClick={() => handleNavClick(link.href)}
                 style={{
                   transitionDelay: open ? `${idx * 40}ms` : "0ms",
                 }}
@@ -206,9 +238,14 @@ export default function Navbar() {
                   activeSection === link.href
                     ? "bg-[#2563EB]/10 text-[#2563EB]"
                     : "text-slate-700 hover:bg-slate-50 hover:text-[#0B1B33]"
-                } ${open ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"}`}
+                } ${
+                  open
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-4 opacity-0"
+                }`}
               >
                 <span>{link.label}</span>
+
                 <ArrowUpRight className="h-4 w-4 opacity-40" strokeWidth={2} />
               </a>
             ))}
