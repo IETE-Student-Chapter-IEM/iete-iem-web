@@ -194,7 +194,7 @@ export default function Hero() {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#events"
+                href="#activities"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-accent px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-primary sm:w-auto"
               >
                 See what's on
