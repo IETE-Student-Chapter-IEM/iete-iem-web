@@ -7,7 +7,7 @@ export const FACULTY_MEMBERS = [
     image: "/coreTeam/moutushisingh2.png",
     bio: "Chairs the Management Committee and heads the department, setting the chapter's strategic direction.",
     instagram: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/dr-moutushi-singh-bb295b6a/",
     tier: "chairman",
   },
   {
@@ -18,7 +18,7 @@ export const FACULTY_MEMBERS = [
     image: "/coreTeam/susovanjana.jpg",
     bio: "Coordinates day-to-day chapter operations and mentors the student committee.",
     instagram: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/dr-susovan-jana-87381027/",
     tier: "coordinator",
   },
   {
@@ -29,7 +29,7 @@ export const FACULTY_MEMBERS = [
     image: "/coreTeam/avipsitachatterjee1.jpeg",
     bio: "Advises on technical programming and academic alignment of chapter initiatives.",
     instagram: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/dr-avipsita-chatterjee-630b35323/",
     tier: "advisor",
   },
   {
@@ -40,7 +40,7 @@ export const FACULTY_MEMBERS = [
     image: "/coreTeam/koushikdutta.jpeg",
     bio: "Advises on technical programming and academic alignment of chapter initiatives.",
     instagram: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/dr-koushik-dutta-31825874/",
     tier: "advisor",
   },
 ];
