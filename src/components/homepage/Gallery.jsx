@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { galleryData } from "../../lib/galleryData";
 import GalleryCard from "./gallery/GalleryCard";
+import BackgroundAnimation from "./gallery/BackgroundAnimation";
 
 // Every 4th card goes wide (2 cols) — deterministic but irregular bento feel
 const isWide = (i) => i % 4 === 0;
@@ -10,8 +11,10 @@ export default function Gallery({ data = galleryData }) {
   const current = data.find((y) => y.year === activeYear) || data[0];
 
   return (
-    <section className="bg-[#EDF3EC] min-h-screen px-4 sm:px-8 py-10">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative bg-[#EDF3EC] min-h-screen overflow-hidden px-4 sm:px-8 py-10">
+      <BackgroundAnimation type="bokeh" speed={1} interactive={true} />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         <p className="text-[10px] uppercase tracking-wide text-[#1C8A54] font-semibold mb-1">
           Gallery
         </p>
