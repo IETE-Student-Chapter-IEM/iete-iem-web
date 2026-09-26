@@ -19,9 +19,15 @@ export default function Navbar() {
   const lockTimeout = useRef(null);
 
   const computeActive = () => {
-    let current = NAV_LINKS[0].href;
+    let current = "#hero";
 
-    for (const link of NAV_LINKS) {
+    const hero = document.querySelector("#hero");
+
+    if (hero && hero.getBoundingClientRect().bottom <= OFFSET) {
+      current = "#about";
+    }
+
+    for (const link of NAV_LINKS.slice(1)) {
       const el = document.querySelector(link.href);
 
       if (el && el.getBoundingClientRect().top <= OFFSET) {
@@ -34,7 +40,7 @@ export default function Navbar() {
       document.documentElement.scrollHeight - 2;
 
     if (atBottom) {
-      current = NAV_LINKS[NAV_LINKS.length - 1].href;
+      current = "#team";
     }
 
     return current;
@@ -51,11 +57,9 @@ export default function Navbar() {
     setActiveSection(computeActive());
   };
 
-  // Active section detection
   useEffect(() => {
     const handleScroll = () => {
       if (clickLock.current) return;
-
       setActiveSection(computeActive());
     };
 
@@ -68,7 +72,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Cancel click lock when user manually scrolls
   useEffect(() => {
     const cancelLock = () => {
       if (clickLock.current) {
@@ -85,7 +88,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
@@ -102,7 +104,6 @@ export default function Navbar() {
     closeMenu();
 
     setActiveSection(href);
-
     clickLock.current = true;
 
     if (lockTimeout.current) {
@@ -115,50 +116,44 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-[76px] bg-white/80 backdrop-blur-md border-b border-slate-200/70 shadow-sm">
-      <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* BRAND / LOGOS */}
+    <header className="fixed inset-x-0 top-0 z-50 h-[84px] bg-white/40 backdrop-blur-md">
+      <nav className="mx-auto flex h-full max-w-[1400px] items-center justify-between px-6 sm:px-8 lg:px-12">
+        {/* BRAND */}
         <a
           href="/"
           onClick={closeMenu}
-          className="group flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-90"
+          className="group flex items-center gap-3"
           aria-label="IETE Student Chapter IEM Kolkata"
         >
-          {/* IETE Logo */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:h-11 sm:w-11">
+          <div className="flex items-center gap-2">
             <img
               src="/LogoNav.png"
               alt="IETE Student Chapter"
-              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              className="h-10 w-10 object-contain transition-transform duration-500 group-hover:rotate-6"
             />
-          </div>
 
-          {/* College Logo */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:h-11 sm:w-11">
             <img
               src="/CLogo.png"
-              alt="IEM Kolkata Logo"
-              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              alt="IEM Kolkata"
+              className="h-10 w-10 object-contain transition-transform duration-500 group-hover:-rotate-6"
             />
           </div>
 
-          {/* Divider */}
-          <div className="h-7 w-[1px] bg-slate-200" />
+          <div className="h-8 w-px bg-slate-300" />
 
-          {/* Brand Text */}
-          <div className="block leading-none">
-            <div className="text-xs font-bold tracking-tight text-[#0B1B33] sm:text-[15px]">
+          <div className="leading-none">
+            <div className="text-sm font-bold tracking-tight text-[#0B1B33] sm:text-base">
               IETE Students' Forum
             </div>
 
-            <div className="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[10px]">
+            <div className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               IEM Kolkata
             </div>
           </div>
         </a>
 
-        {/* DESKTOP NAVIGATION */}
-        <div className="hidden items-center gap-1 rounded-full border border-slate-200/60 bg-white/50 p-1.5 backdrop-blur-sm md:flex">
+        {/* DESKTOP NAV */}
+        <div className="hidden items-center gap-7 md:flex lg:gap-9">
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href;
 
@@ -167,102 +162,106 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => handleNavClick(link.href)}
-                className={`relative rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                className={`group relative py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors duration-300 ${
                   isActive
-                    ? "bg-white text-[#2563EB] shadow-sm"
-                    : "text-slate-600 hover:bg-slate-100/60 hover:text-[#0B1B33]"
+                    ? "text-[#0B1B33]"
+                    : "text-slate-500 hover:text-[#0B1B33]"
                 }`}
               >
                 {link.label}
+
+                <span
+                  className={`absolute bottom-0 left-0 h-[1.5px] bg-[#1C8A54] transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </a>
             );
           })}
-        </div>
 
-        {/* DESKTOP CTA */}
-        <div className="hidden md:flex md:items-center">
+          {/* JOIN US */}
           <a
             href="#join"
-            className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-[#2563EB] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#1D4ED8] hover:shadow-md active:scale-95"
+            className="group ml-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#0B2E22]"
           >
             <span>Join us</span>
 
-            <ArrowUpRight
-              className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              strokeWidth={2.5}
-            />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1C8A54] text-white transition-transform duration-300 group-hover:rotate-45">
+              <ArrowUpRight className="h-4 w-4" strokeWidth={2.3} />
+            </span>
           </a>
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* MOBILE BUTTON */}
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white/80 text-[#0B1B33] transition-colors hover:bg-slate-50 active:scale-95 md:hidden"
+          className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#0B2E22] text-white transition-transform active:scale-95 md:hidden"
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={open}
         >
           {open ? (
-            <X
-              className="h-5 w-5 rotate-90 transition-transform duration-200"
-              strokeWidth={2}
-            />
+            <X className="h-5 w-5" strokeWidth={2} />
           ) : (
-            <Menu
-              className="h-5 w-5 transition-transform duration-200"
-              strokeWidth={2}
-            />
+            <Menu className="h-5 w-5" strokeWidth={2} />
           )}
         </button>
       </nav>
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-x-0 top-[76px] h-[calc(100vh-76px)] bg-white/90 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-x-0 top-[84px] h-[calc(100vh-84px)] bg-[#F7FBF8]/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-4 opacity-0"
         }`}
       >
-        <div className="flex h-full flex-col justify-between px-6 pb-10 pt-6">
-          <div className="space-y-2">
+        <div className="flex h-full flex-col justify-between px-6 pb-10 pt-8">
+          <div className="space-y-1">
             {NAV_LINKS.map((link, idx) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => handleNavClick(link.href)}
                 style={{
-                  transitionDelay: open ? `${idx * 40}ms` : "0ms",
+                  transitionDelay: open ? `${idx * 50}ms` : "0ms",
                 }}
-                className={`flex h-12 items-center justify-between rounded-xl px-4 text-base font-semibold transition-all duration-200 ${
-                  activeSection === link.href
-                    ? "bg-[#2563EB]/10 text-[#2563EB]"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-[#0B1B33]"
-                } ${
+                className={`group flex items-center justify-between border-b border-[#0B2E22]/10 py-5 transition-all duration-300 ${
                   open
                     ? "translate-x-0 opacity-100"
-                    : "-translate-x-4 opacity-0"
+                    : "-translate-x-5 opacity-0"
                 }`}
               >
-                <span>{link.label}</span>
+                <span
+                  className={`text-2xl font-bold uppercase tracking-tight ${
+                    activeSection === link.href
+                      ? "text-[#1C8A54]"
+                      : "text-[#0B2E22]"
+                  }`}
+                >
+                  {link.label}
+                </span>
 
-                <ArrowUpRight className="h-4 w-4 opacity-40" strokeWidth={2} />
+                <ArrowUpRight
+                  className="h-5 w-5 text-[#1C8A54] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                  strokeWidth={2}
+                />
               </a>
             ))}
           </div>
 
-          <div className="space-y-4 border-t border-slate-100 pt-6">
+          <div className="border-t border-[#0B2E22]/10 pt-6">
             <a
               href="#join"
               onClick={closeMenu}
-              className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-5 text-sm font-semibold text-white shadow-md transition hover:bg-[#1D4ED8] active:scale-[0.98]"
+              className="flex items-center justify-between rounded-full bg-[#1C8A54] px-5 py-3.5 text-sm font-bold uppercase tracking-wide text-white"
             >
-              Join the chapter
-              <ArrowUpRight className="h-4 w-4" strokeWidth={2.3} />
+              <span>Join the Chapter</span>
+
+              <ArrowUpRight className="h-5 w-5" strokeWidth={2.2} />
             </a>
 
-            <div className="flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#2563EB]" />
+            <div className="mt-5 text-center text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
               IETE Student Chapter · IEM Kolkata
             </div>
           </div>
