@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { galleryData } from "../../lib/galleryData";
 import GalleryCard from "./gallery/GalleryCard";
+import LightboxModal from "./gallery/LightboxModal";
 import BackgroundAnimation from "./gallery/BackgroundAnimation";
 
 // Every 4th card goes wide (2 cols) — deterministic but irregular bento feel
@@ -8,6 +9,7 @@ const isWide = (i) => i % 4 === 0;
 
 export default function Gallery({ data = galleryData }) {
   const [activeYear, setActiveYear] = useState(data[0].year);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const current = data.find((y) => y.year === activeYear) || data[0];
 
   return (
@@ -65,10 +67,21 @@ export default function Gallery({ data = galleryData }) {
               event={ev}
               key={`${activeYear}-${ev.id}`}
               wide={isWide(i)}
+              onSelect={(event, photoIndex) =>
+                setSelectedEvent({ ...event, selectedPhotoIndex: photoIndex })
+              }
             />
           ))}
         </div>
       </div>
+
+      {selectedEvent && (
+        <LightboxModal
+          event={selectedEvent}
+          initialIndex={selectedEvent.selectedPhotoIndex || 0}
+          onClose={() => setSelectedEvent(null)}
+        />
+      )}
     </section>
   );
 }

@@ -14,7 +14,7 @@ const CATEGORY_COLOR = {
 
 const colorFor = (cat) => CATEGORY_COLOR[cat] || "#1C8A54";
 
-export default function GalleryCard({ event, wide = false }) {
+export default function GalleryCard({ event, wide = false, onSelect }) {
   const [index, setIndex] = useState(0);
   const pausedRef = useRef(false);
 
@@ -44,13 +44,14 @@ export default function GalleryCard({ event, wide = false }) {
 
   return (
     <div
-      className={`relative ${wide ? "col-span-2" : ""}`}
+      className={`relative cursor-pointer ${wide ? "col-span-2" : ""}`}
       onMouseEnter={() => {
         pausedRef.current = true;
       }}
       onMouseLeave={() => {
         pausedRef.current = false;
       }}
+      onClick={() => onSelect && onSelect(event, index)}
     >
       {/* Micro corner brackets */}
       {[
