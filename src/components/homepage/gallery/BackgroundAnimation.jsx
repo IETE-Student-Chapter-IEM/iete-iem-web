@@ -1,7 +1,14 @@
 import { useEffect, useRef } from "react";
 
+/**
+ * Lightweight animated canvas background
+ *
+ * Types:
+ * "constellation" | "bokeh" | "grid" | "supernova"
+ */
+
 export default function BackgroundAnimation({
-  type = "bokeh",
+  type = "constellation",
   speed = 1,
   interactive = true,
 }) {
@@ -9,260 +16,402 @@ export default function BackgroundAnimation({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const parent = canvas?.parentElement;
 
-    const ctx = canvas.getContext("2d");
-    let animationFrameId;
-    let width = (canvas.width = canvas.parentElement.offsetWidth);
-    let height = (canvas.height = canvas.parentElement.offsetHeight);
+    if (!canvas || !parent) return;
 
-    const handleResize = () => {
-      if (!canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.offsetWidth;
-      height = canvas.height = canvas.parentElement.offsetHeight;
-    };
+    const ctx = canvas.getContext("2d", {
+      alpha: true,
+    });
 
-    window.addEventListener("resize", handleResize);
+    if (!ctx) return;
 
-    // Mouse tracking for interactive effect
-    const mouse = {
-      x: width / 2,
-      y: height / 2,
-      targetX: width / 2,
-      targetY: height / 2,
-    };
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.targetX = e.clientX - rect.left;
-      mouse.targetY = e.clientY - rect.top;
-    };
+    let animationFrameId = null;
+    let width = 0;
+    let height = 0;
 
-    if (interactive) {
-      window.addEventListener("mousemove", handleMouseMove);
-    }
-
-    // Initialize elements based on type
     let particles = [];
+    let ripples = [];
     let gridOffset = 0;
 
-    const createParticles = () => {
-      particles = [];
-      const particleCount =
-        type === "bokeh" ? 28 : type === "aperture" ? 35 : 18;
+    const mouse = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      isHovered: false,
+    };
 
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius:
-            Math.random() *
-              (type === "bokeh" ? 40 : type === "aperture" ? 14 : 120) +
-            5,
-          vx: (Math.random() - 0.5) * 0.4 * speed,
-          vy: (Math.random() - 0.5) * 0.4 * speed,
-          alpha: Math.random() * 0.35 + 0.05,
-          color:
-            Math.random() > 0.4
-              ? "#1C8A54" // Emerald
-              : Math.random() > 0.5
-                ? "#0B2E22" // Deep Forest
-                : "#82C39B", // Soft mint highlight
-          rotation: Math.random() * Math.PI * 2,
-          vRot: (Math.random() - 0.5) * 0.02 * speed,
-          sides: Math.floor(Math.random() * 3) + 5, // Hexagons/Pentagons for camera apertures
-        });
+    const resizeCanvas = () => {
+      const rect = parent.getBoundingClientRect();
+
+      width = Math.max(1, Math.floor(rect.width));
+      height = Math.max(1, Math.floor(rect.height));
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      mouse.x = width / 2;
+      mouse.y = height / 2;
+      mouse.targetX = width / 2;
+      mouse.targetY = height / 2;
+
+      initElements();
+    };
+
+    const initElements = () => {
+      const count =
+        type === "constellation"
+          ? 35
+          : type === "supernova"
+            ? 45
+            : type === "bokeh"
+              ? 14
+              : 16;
+
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+
+        baseX: Math.random() * width,
+        baseY: Math.random() * height,
+
+        radius:
+          type === "bokeh"
+            ? Math.random() * 60 + 20
+            : type === "supernova"
+              ? Math.random() * 3 + 1
+              : Math.random() * 10 + 4,
+
+        vx: (Math.random() - 0.5) * 0.35 * speed,
+        vy: (Math.random() - 0.5) * 0.35 * speed,
+
+        alpha: Math.random() * 0.3 + 0.08,
+
+        color:
+          Math.random() > 0.45
+            ? "#1C8A54"
+            : Math.random() > 0.3
+              ? "#0B2E22"
+              : "#4ADE80",
+
+        rotation: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.015 * speed,
+
+        sides: Math.floor(Math.random() * 3) + 5,
+
+        pulseSpeed: Math.random() * 0.02 + 0.008,
+
+        angle: Math.random() * Math.PI * 2,
+        distance: Math.random() * 160 + 30,
+      }));
+    };
+
+    const handleResize = () => {
+      resizeCanvas();
+    };
+
+    const handleMouseMove = (e) => {
+      if (!interactive) return;
+
+      const rect = canvas.getBoundingClientRect();
+
+      mouse.targetX = e.clientX - rect.left;
+      mouse.targetY = e.clientY - rect.top;
+      mouse.isHovered = true;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.isHovered = false;
+    };
+
+    const handleClick = (e) => {
+      if (!interactive) return;
+
+      const rect = canvas.getBoundingClientRect();
+
+      ripples.push({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        radius: 0,
+        maxRadius: Math.max(width, height) * 0.35,
+        alpha: 0.45,
+      });
+
+      // Prevent unbounded ripple memory
+      if (ripples.length > 4) {
+        ripples.shift();
       }
     };
 
-    createParticles();
-
-    // Render loop
-    const render = () => {
+    const render = (timestamp) => {
       ctx.clearRect(0, 0, width, height);
 
-      // Interpolate mouse movement smoothly
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      if (interactive) {
+        mouse.x += (mouse.targetX - mouse.x) * 0.08;
+        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+      }
 
-      /* MODE 1: BOKEH FLASH LIGHTS */
+      const time = timestamp * 0.001 * speed;
+
+      /*
+       * BOKEH
+       */
       if (type === "bokeh") {
-        particles.forEach((p) => {
-          p.x += p.vx * speed;
-          p.y += p.vy * speed;
+        particles.forEach((particle, index) => {
+          particle.x += particle.vx * speed + Math.sin(time + index) * 0.15;
 
-          if (p.x < -p.radius) p.x = width + p.radius;
-          if (p.x > width + p.radius) p.x = -p.radius;
-          if (p.y < -p.radius) p.y = height + p.radius;
-          if (p.y > height + p.radius) p.y = -p.radius;
+          particle.y += particle.vy * speed + Math.cos(time + index) * 0.15;
 
-          // Parallax effect toward mouse cursor
-          const dx = (mouse.x - width / 2) * 0.02;
-          const dy = (mouse.y - height / 2) * 0.02;
+          if (particle.x < -particle.radius) {
+            particle.x = width + particle.radius;
+          }
+
+          if (particle.x > width + particle.radius) {
+            particle.x = -particle.radius;
+          }
+
+          if (particle.y < -particle.radius) {
+            particle.y = height + particle.radius;
+          }
+
+          if (particle.y > height + particle.radius) {
+            particle.y = -particle.radius;
+          }
 
           const gradient = ctx.createRadialGradient(
-            p.x + dx,
-            p.y + dy,
+            particle.x,
+            particle.y,
             0,
-            p.x + dx,
-            p.y + dy,
-            p.radius,
+            particle.x,
+            particle.y,
+            particle.radius,
           );
-          gradient.addColorStop(0, p.color);
+
+          gradient.addColorStop(0, particle.color);
           gradient.addColorStop(1, "transparent");
 
-          ctx.save();
-          ctx.globalAlpha = p.alpha;
+          ctx.globalAlpha =
+            particle.alpha * (0.8 + Math.sin(time * 2 + index) * 0.2);
+
           ctx.fillStyle = gradient;
+
           ctx.beginPath();
-          ctx.arc(p.x + dx, p.y + dy, p.radius, 0, Math.PI * 2);
+          ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
           ctx.fill();
+        });
+
+        ctx.globalAlpha = 1;
+      } else if (type === "constellation") {
+
+      /*
+       * CONSTELLATION
+       */
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 130) {
+              const alpha = (1 - distance / 130) * 0.2;
+
+              ctx.strokeStyle = `rgba(28,138,84,${alpha})`;
+              ctx.lineWidth = 0.7;
+
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        particles.forEach((particle) => {
+          particle.x += particle.vx * speed;
+          particle.y += particle.vy * speed;
+          particle.rotation += particle.vRot;
+
+          if (particle.x < -30) particle.x = width + 30;
+          if (particle.x > width + 30) particle.x = -30;
+          if (particle.y < -30) particle.y = height + 30;
+          if (particle.y > height + 30) particle.y = -30;
+
+          ctx.save();
+
+          ctx.translate(particle.x, particle.y);
+          ctx.rotate(particle.rotation);
+
+          ctx.globalAlpha = particle.alpha;
+          ctx.strokeStyle = particle.color;
+          ctx.lineWidth = 1;
+
+          ctx.beginPath();
+
+          for (let i = 0; i < particle.sides; i++) {
+            const angle = (i * 2 * Math.PI) / particle.sides;
+
+            const px = particle.radius * Math.cos(angle);
+            const py = particle.radius * Math.sin(angle);
+
+            if (i === 0) {
+              ctx.moveTo(px, py);
+            } else {
+              ctx.lineTo(px, py);
+            }
+          }
+
+          ctx.closePath();
+          ctx.stroke();
+
           ctx.restore();
         });
-      } else if (type === "blobs") {
-        /* MODE 2: SOFT GLOWING GRADIENT BLOBS */
-        // Render large ambient glowing dynamic centers
-        const time = Date.now() * 0.0005 * speed;
 
-        const blob1X =
-          width * 0.2 +
-          Math.sin(time * 0.8) * 120 +
-          (mouse.x - width / 2) * 0.05;
-        const blob1Y =
-          height * 0.3 +
-          Math.cos(time * 0.6) * 100 +
-          (mouse.y - height / 2) * 0.05;
-
-        const blob2X =
-          width * 0.8 +
-          Math.cos(time * 0.7) * 140 -
-          (mouse.x - width / 2) * 0.05;
-        const blob2Y =
-          height * 0.7 +
-          Math.sin(time * 0.9) * 110 -
-          (mouse.y - height / 2) * 0.05;
-
-        // Blob 1: Green mist
-        const grad1 = ctx.createRadialGradient(
-          blob1X,
-          blob1Y,
-          10,
-          blob1X,
-          blob1Y,
-          width * 0.45,
-        );
-        grad1.addColorStop(0, "rgba(28, 138, 84, 0.18)");
-        grad1.addColorStop(1, "rgba(237, 243, 236, 0)");
-
-        ctx.fillStyle = grad1;
-        ctx.beginPath();
-        ctx.arc(blob1X, blob1Y, width * 0.45, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Blob 2: Dark green depth mist
-        const grad2 = ctx.createRadialGradient(
-          blob2X,
-          blob2Y,
-          10,
-          blob2X,
-          blob2Y,
-          width * 0.5,
-        );
-        grad2.addColorStop(0, "rgba(11, 46, 34, 0.12)");
-        grad2.addColorStop(1, "rgba(237, 243, 236, 0)");
-
-        ctx.fillStyle = grad2;
-        ctx.beginPath();
-        ctx.arc(blob2X, blob2Y, width * 0.5, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = 1;
       } else if (type === "grid") {
-        /* MODE 3: SUBTLE TECH MATRIX GRID LINES */
+
+      /*
+       * GRID
+       */
         gridOffset = (gridOffset + 0.3 * speed) % 40;
 
-        ctx.strokeStyle = "rgba(28, 138, 84, 0.08)";
+        const gridSize = 40;
+
+        ctx.strokeStyle = "rgba(28,138,84,0.08)";
         ctx.lineWidth = 1;
 
-        // Vertical lines
-        for (let x = 0; x < width; x += 40) {
+        for (let x = 0; x <= width; x += gridSize) {
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x, height);
           ctx.stroke();
         }
 
-        // Animated Horizontal lines
-        for (let y = gridOffset; y < height; y += 40) {
+        for (let y = gridOffset; y <= height; y += gridSize) {
           ctx.beginPath();
           ctx.moveTo(0, y);
           ctx.lineTo(width, y);
           ctx.stroke();
         }
+      } else if (type === "supernova") {
 
-        // Mouse Spotlight
-        const spotGrad = ctx.createRadialGradient(
-          mouse.x,
-          mouse.y,
-          0,
-          mouse.x,
-          mouse.y,
-          250,
-        );
-        spotGrad.addColorStop(0, "rgba(28, 138, 84, 0.12)");
-        spotGrad.addColorStop(1, "transparent");
+      /*
+       * SUPERNOVA
+       */
+        particles.forEach((particle) => {
+          particle.angle += particle.pulseSpeed * speed;
 
-        ctx.fillStyle = spotGrad;
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 250, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (type === "aperture") {
-        /* MODE 4: APERTURE / CAMERA GEOMETRIC DUST */
-        particles.forEach((p) => {
-          p.x += p.vx * speed;
-          p.y += p.vy * speed;
-          p.rotation += p.vRot;
+          const targetX = mouse.isHovered
+            ? mouse.x + Math.cos(particle.angle) * particle.distance
+            : particle.baseX + Math.cos(particle.angle) * 60;
 
-          if (p.x < -20) p.x = width + 20;
-          if (p.x > width + 20) p.x = -20;
-          if (p.y < -20) p.y = height + 20;
-          if (p.y > height + 20) p.y = -20;
+          const targetY = mouse.isHovered
+            ? mouse.y + Math.sin(particle.angle) * particle.distance
+            : particle.baseY + Math.sin(particle.angle) * 60;
 
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rotation);
-          ctx.globalAlpha = p.alpha;
-          ctx.strokeStyle = p.color;
-          ctx.lineWidth = 1.2;
+          particle.x += (targetX - particle.x) * 0.05;
 
-          // Polygon path for camera aperture blade feel
+          particle.y += (targetY - particle.y) * 0.05;
+
+          ctx.globalAlpha = particle.alpha;
+          ctx.fillStyle = particle.color;
+
           ctx.beginPath();
-          for (let i = 0; i < p.sides; i++) {
-            const angle = (i * 2 * Math.PI) / p.sides;
-            const px = p.radius * Math.cos(angle);
-            const py = p.radius * Math.sin(angle);
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          ctx.closePath();
-          ctx.stroke();
-          ctx.restore();
+          ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          ctx.fill();
         });
+
+        ctx.globalAlpha = 1;
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      /*
+       * CLICK RIPPLES
+       */
+      if (interactive && ripples.length) {
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          const ripple = ripples[i];
+
+          ripple.radius += 5 * speed;
+          ripple.alpha *= 0.96;
+
+          ctx.strokeStyle = `rgba(28,138,84,${ripple.alpha})`;
+          ctx.lineWidth = 1.2;
+
+          ctx.beginPath();
+          ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+          ctx.stroke();
+
+          if (ripple.alpha < 0.01 || ripple.radius > ripple.maxRadius) {
+            ripples.splice(i, 1);
+          }
+        }
+      }
+
+      ctx.globalAlpha = 1;
+
+      if (!document.hidden) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      } else {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    resizeCanvas();
+
+    window.addEventListener("resize", handleResize);
+
+    if (interactive) {
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+      window.addEventListener("mouseleave", handleMouseLeave);
+
+      window.addEventListener("click", handleClick, { passive: true });
+    }
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
       window.removeEventListener("resize", handleResize);
-      if (interactive) window.removeEventListener("mousemove", handleMouseMove);
+
+      if (interactive) {
+        window.removeEventListener("mousemove", handleMouseMove);
+
+        window.removeEventListener("mouseleave", handleMouseLeave);
+
+        window.removeEventListener("click", handleClick);
+      }
+
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, [type, speed, interactive]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-1000"
+      className="pointer-events-none absolute inset-0 z-0"
+      aria-hidden="true"
     />
   );
 }

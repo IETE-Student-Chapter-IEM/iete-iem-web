@@ -4,49 +4,65 @@ import GalleryCard from "./gallery/GalleryCard";
 import LightboxModal from "./gallery/LightboxModal";
 import BackgroundAnimation from "./gallery/BackgroundAnimation";
 
-// Every 4th card goes wide (2 cols) — deterministic but irregular bento feel
+// Every 4th card goes wide
 const isWide = (i) => i % 4 === 0;
 
 export default function Gallery({ data = galleryData }) {
-  const [activeYear, setActiveYear] = useState(data[0].year);
+  const [activeYear, setActiveYear] = useState(data[0]?.year);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const current = data.find((y) => y.year === activeYear) || data[0];
+
+  const current = data.find((year) => year.year === activeYear) || data[0];
+
+  if (!current) return null;
+
+  const handleSelect = (event, photoIndex) => {
+    setSelectedEvent({
+      ...event,
+      selectedPhotoIndex: photoIndex,
+    });
+  };
 
   return (
-    <section className="relative bg-[#EDF3EC] min-h-screen overflow-hidden px-4 sm:px-8 py-10">
-      <BackgroundAnimation type="bokeh" speed={1} interactive={true} />
+    <section className="relative min-h-screen overflow-hidden bg-[#EDF3EC] px-4 py-10 sm:px-8">
+      {/* Lightweight background */}
+      <BackgroundAnimation type="bokeh" speed={0.6} interactive={false} />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <p className="text-[10px] uppercase tracking-wide text-[#1C8A54] font-semibold mb-1">
+      <div className="relative z-10 mx-auto max-w-6xl">
+        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-[#1C8A54]">
           Gallery
         </p>
 
         <h2
-          className="text-xl sm:text-2xl font-[700] text-[#0B2E22] leading-tight mb-5"
-          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          className="mb-5 text-xl font-[700] leading-tight text-[#0B2E22] sm:text-2xl"
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+          }}
         >
           Moments from every chapter year.
         </h2>
 
         {/* Year tabs */}
-        <div className="flex gap-1 overflow-x-auto pb-2 mb-4 border-b border-[#0B2E22]/15">
-          {data.map((y) => {
-            const active = y.year === activeYear;
+        <div className="mb-4 flex gap-1 overflow-x-auto border-b border-[#0B2E22]/15 pb-2">
+          {data.map((year) => {
+            const active = year.year === activeYear;
 
             return (
               <button
-                key={y.year}
-                onClick={() => setActiveYear(y.year)}
+                key={year.year}
+                onClick={() => {
+                  setActiveYear(year.year);
+                  setSelectedEvent(null);
+                }}
                 className="relative shrink-0 px-2.5 py-1.5 text-xs font-medium transition-colors"
                 style={{
                   color: active ? "#0B2E22" : "#57655D",
                 }}
               >
-                {y.year}
+                {year.year}
 
                 {active && (
                   <span
-                    className="absolute left-1/2 -bottom-[5px] -translate-x-1/2 h-1.5 w-1.5"
+                    className="absolute -bottom-[5px] left-1/2 h-1.5 w-1.5 -translate-x-1/2"
                     style={{
                       background: "#1C8A54",
                       clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
@@ -58,27 +74,24 @@ export default function Gallery({ data = galleryData }) {
           })}
         </div>
 
-        <div
-          key={activeYear}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 sm:gap-x-3 gap-y-3 sm:gap-y-4"
-        >
-          {current.events.map((ev, i) => (
+        {/* Gallery */}
+        <div className="grid grid-cols-2 gap-x-2 gap-y-3 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-4 lg:grid-cols-4">
+          {current.events.map((event, index) => (
             <GalleryCard
-              event={ev}
-              key={`${activeYear}-${ev.id}`}
-              wide={isWide(i)}
-              onSelect={(event, photoIndex) =>
-                setSelectedEvent({ ...event, selectedPhotoIndex: photoIndex })
-              }
+              key={`${activeYear}-${event.id}`}
+              event={event}
+              wide={isWide(index)}
+              onSelect={handleSelect}
             />
           ))}
         </div>
       </div>
 
+      {/* Lightbox */}
       {selectedEvent && (
         <LightboxModal
           event={selectedEvent}
-          initialIndex={selectedEvent.selectedPhotoIndex || 0}
+          initialIndex={selectedEvent.selectedPhotoIndex ?? 0}
           onClose={() => setSelectedEvent(null)}
         />
       )}
