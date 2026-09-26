@@ -181,7 +181,7 @@ export default function Navbar() {
 
           {/* JOIN US */}
           <a
-            href="#join"
+            href="/join-us"
             className="group ml-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#0B2E22]"
           >
             <span>Join us</span>
