@@ -10,7 +10,7 @@ export default function Gallery({ data = galleryData }) {
   const current = data.find((y) => y.year === activeYear) || data[0];
 
   return (
-    <section className="bg-[#EDF3EC] px-4 sm:px-8 py-10">
+    <section className="bg-[#EDF3EC] min-h-screen px-4 sm:px-8 py-10">
       <div className="max-w-6xl mx-auto">
         <p className="text-[10px] uppercase tracking-wide text-[#1C8A54] font-semibold mb-1">
           Gallery
@@ -48,7 +48,6 @@ export default function Gallery({ data = galleryData }) {
           })}
         </div>
 
-      
         <div
           key={activeYear}
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 sm:gap-x-3 gap-y-3 sm:gap-y-4"

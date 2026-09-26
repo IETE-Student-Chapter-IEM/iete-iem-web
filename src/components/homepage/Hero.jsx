@@ -27,7 +27,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full overflow-hidden bg-brand-tint pt-24 sm:pt-28 md:pt-32">
+    <section className="relative min-h-screen w-full overflow-hidden bg-brand-tint pt-24 sm:pt-28 md:pt-32">
       {/* Blueprint Grid Background in Emerald Tint */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -176,7 +176,7 @@ export default function Hero() {
       <div className="relative mx-auto max-w-7xl px-5 pb-16 sm:px-6 md:pb-24">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
           {/* LEFT — dialog & action */}
-          <div className="flex flex-col lg:col-span-7">
+          <div className="flex flex-col lg:col-span-7 pt-20">
             <h1 className="font-extrabold leading-[1.1] tracking-[-0.03em] text-brand-primary">
               <span className="block text-3xl sm:text-4xl md:text-[2.75rem]">
                 Engineering ideas.

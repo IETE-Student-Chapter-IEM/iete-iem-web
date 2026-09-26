@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Cpu, Rocket, Users } from "lucide-react";
 
 import AnimatedHeading from "../../ui/AnimatedHeading";
 import ScrollWordReveal from "../../ui/ScrollWordReveal";
@@ -24,14 +23,12 @@ export default function About() {
 
   const canHoverRef = useRef(false);
 
-  // ---- Logo tilt ----
   const rotateXTo = useRef(null);
   const rotateYTo = useRef(null);
   const logoRafId = useRef(null);
   const pendingLogoEvent = useRef(null);
   const imageRefreshed = useRef(false);
 
-  // ---- Section-wide background parallax ----
   const bgRafId = useRef(null);
   const pendingBgEvent = useRef(null);
 
@@ -201,7 +198,7 @@ export default function About() {
       id="about"
       onMouseMove={handleSectionMouseMove}
       onMouseLeave={handleSectionMouseLeave}
-      className="relative w-full overflow-hidden bg-brand-primary px-1 py-10 sm:py-16 md:py-20"
+      className="relative min-h-screen w-full overflow-hidden bg-brand-primary px-1 py-10 sm:py-16 md:py-20"
     >
       <AboutBackground ref={backgroundRef} />
 
@@ -243,7 +240,7 @@ export default function About() {
           </div>
 
           {/* TEXT CONTENT */}
-          <div className="text-center md:col-span-7 md:text-left">
+          <div className="text-center pt-10 md:col-span-7 md:text-left">
             <div className="mb-5 flex justify-center sm:mb-6 md:justify-start">
               <AnimatedHeading
                 words={headingWords}

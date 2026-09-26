@@ -109,7 +109,7 @@ export default function Team() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-brand-tint/30 py-16 sm:py-20"
+      className="relative w-full min-h-screen overflow-hidden bg-brand-tint/30 py-16 sm:py-20"
     >
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
         {/* MAIN SECTION HEADER */}
