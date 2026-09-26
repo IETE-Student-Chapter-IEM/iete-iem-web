@@ -332,11 +332,10 @@ export default function ActivitiesTimeline({ data = activitiesData }) {
                 <button
                   key={id}
                   onClick={() => selectEvent(ev)}
-                  className="at-card shrink-0 w-[240px] sm:w-[260px] text-left rounded-lg border bg-white/60 p-4 transition-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="at-card shrink-0 w-[240px] sm:w-[260px] text-left rounded-lg border-2 bg-white/60 p-4 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                   style={{
                     scrollSnapAlign: "start",
                     borderColor: isOpen ? accent : "rgba(11,46,34,0.12)",
-                    boxShadow: isOpen ? `inset 0 0 0 2px ${accent}` : "none",
                     outlineColor: accent,
                   }}
                 >
